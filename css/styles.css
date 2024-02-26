@@ -1,0 +1,35 @@
+body {
+    margin: 0;
+}
+
+.toolbar {
+    position: sticky;
+    top: 0;
+    background-color: aliceblue;
+    width: 100%;
+    height: 12vh;
+    display: flex;
+    align-items: center;
+}
+
+.toolbar-list {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+}
+
+.toolbar-list li {
+    margin: 0vh 3vh;
+}
+
+.toolbar-list li a {
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+    transition: color 0.3s ease-in-out;
+}
+
+.toolbar-list li a:hover {
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.6);
+}

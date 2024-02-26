@@ -4,12 +4,11 @@ h1 {
 
 .main-banner {
     background-image: url("/assets/index_background.jpg");
-    height: 75vh;
+    height: 85vh;
     width: 100%;
-}
-
-.main-banner .main-banner-header{
-    color: rgba(255, 255, 255, 0.88);
-    position: relative;
-    top: 30vh;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 8.5vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
