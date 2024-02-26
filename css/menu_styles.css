@@ -3,11 +3,18 @@ body {
     overflow-x: hidden;
 }
 
-h1 {
-    text-align: center;
+.menu-banner {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)),
+                    url("/assets/index_background.jpg");
+    height: 35vh;
+    width: 100%;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 6vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-family: "Kanit", sans-serif;
     font-weight: 800;
-    margin-bottom: 0;
 }
 
 .menu-products {
@@ -19,7 +26,6 @@ h1 {
     margin-top: 0;
     flex-wrap: wrap;
 }
-
 
 .menu-products img {
     height: 35vh;
