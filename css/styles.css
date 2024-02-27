@@ -15,6 +15,7 @@ body {
 .toolbar-list {
     display: flex;
     flex-direction: row;
+    justify-content: center;
     list-style: none;
     padding: 0;
     margin: 0;
@@ -23,7 +24,7 @@ body {
 
 .toolbar-list li {
     display: flex;
-    margin: 0vh 5vh;
+    margin: 0vh 10vh;
 }
 
 .toolbar-list li a {
@@ -41,7 +42,7 @@ body {
 
 .footer-list {
     display: flex;
-    align-items: center;
+    align-items: top;
     background-color: rgb(194, 226, 228);
     text-decoration: none;
     list-style: none;
