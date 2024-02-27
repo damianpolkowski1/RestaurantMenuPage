@@ -25,12 +25,7 @@ body {
     justify-content: center;
 }
 
-.about-us-content .with-images {
-    display: flex;
-    align-items: center;
-    margin-bottom: 8vh;
-}
-
+.about-us-content .with-images,
 .about-us-content .with-images-horizontal {
     display: flex;
     align-items: center;
@@ -41,16 +36,16 @@ body {
     max-height: 70vh;
 }
 
-.about-us-content .with-images-horizontal img {
-    max-height: 60vh;
-}
-
 .about-us-content .with-images .about-us-content-text {
     width: 65%;
 }
 
 .about-us-content .with-images .about-us-content-img {
     width: 35%;
+}
+
+.about-us-content .with-images-horizontal img {
+    max-height: 60vh;
 }
 
 .about-us-content .with-images-horizontal .about-us-content-text {
@@ -82,4 +77,11 @@ body {
     font-size: 3vh;
     font-weight: 500;
     text-align: justify;
+}
+
+@media only screen and (max-width: 1400px) {
+    .about-us-content .with-images,
+    .about-us-content .with-images-horizontal {
+        flex-direction: column;
+    }
 }

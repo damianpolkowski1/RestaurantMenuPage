@@ -32,7 +32,13 @@ body {
 .menu-products img {
     height: 35vh;
     width: 35vh;
-    margin: 3vh 10vh 0vh 0vh;
+    margin: 5vh 10vh 0vh 0vh;
+}
+
+.menu-products img:hover {
+    height: 30vh;
+    width: 30vh;
+    padding: 2.5vh 2.5vh 2.5vh 2.5vh;
 }
 
 .menu-products h4 {

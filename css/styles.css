@@ -80,3 +80,9 @@ body {
     width: 11vh;
     padding: 0vh 3vh 0vh 0vh;
 }
+
+@media only screen and (max-width: 480px) {
+    .toolbar-list {
+        flex-direction: column;
+    }
+}
