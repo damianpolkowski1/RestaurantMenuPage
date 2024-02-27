@@ -35,6 +35,12 @@ body {
     margin: 5vh 10vh 0vh 0vh;
 }
 
+.menu-products .add-to-cart-button {
+    display: flex;
+    flex-direction: column;
+    max-width: fit-content;
+}
+
 .menu-products img:hover {
     height: 30vh;
     width: 30vh;
