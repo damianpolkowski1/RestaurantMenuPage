@@ -40,11 +40,33 @@ body {
     padding-left: 2vh;
 }
 
+.landing-page .landing-text2 {
+    font-family: "Kanit", sans-serif;
+    width: 60%;
+    padding-left: 2vh;
+}
+
+.landing-page .landing-image2 {
+    width: 40%;
+    text-align: end;
+    padding-right: 2vh;
+}
+
 .landing-page .landing-text h2 {
     font-size: 8vh;
 }
 
 .landing-page .landing-text p {
+    font-size: 4.5vh;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+.landing-page .landing-text2 h2 {
+    font-size: 8vh;
+}
+
+.landing-page .landing-text2 p {
     font-size: 4.5vh;
     text-align: justify;
     text-justify: inter-word;
