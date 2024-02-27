@@ -1,0 +1,18 @@
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.cart-banner {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)),
+                    url("/assets/index_background.jpg");
+    height: 35vh;
+    width: 100%;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 6vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Kanit", sans-serif;
+    font-weight: 800;
+}

@@ -1,17 +1,17 @@
-let dish_names = ['Pljeskavica', 'Pierogi', 'Żurek', 'Rizotoo',
+let dish_names = ['Pljeskavica', 'Pierogi', 'Żurek', 'Rizotto',
                 'Rosół', 'Bigos', 'Cevapi', 'Sernik', 'Szarlotka'];
 
-                let dish_prices = [660, 720, 530, 580, 410, 650, 700, 360, 380];
+let dish_prices = [660, 720, 530, 580, 410, 650, 700, 360, 380];
 
-                let dish_pictures_links = ["./assets/pljeskavica.png",
-                                            "./assets/pierogi.png",
-                                            "./assets/zurek.png",
-                                            "./assets/rizoto.png",
-                                            "./assets/rosol.png",
-                                            "./assets/bigos.png",
-                                            "./assets/cevapi.png",
-                                            "./assets/sernik.png",
-                                            "./assets/szarlotka.png"];
+let dish_pictures_links = ["./assets/pljeskavica.png",
+                            "./assets/pierogi.png",
+                            "./assets/zurek.png",
+                            "./assets/rizoto.png",
+                            "./assets/rosol.png",
+                            "./assets/bigos.png",
+                            "./assets/cevapi.png",
+                            "./assets/sernik.png",
+                            "./assets/szarlotka.png"];
 
 for(let i = 0; i < dish_names.length; i++)
 {
@@ -33,6 +33,7 @@ for(let i = 0; i < dish_names.length; i++)
 
     let button = document.createElement("button");
     button.setAttribute("type", "button");
+    button.setAttribute("id", i);
     button.textContent = "Add to Cart";
 
     addToCartDiv.appendChild(header);
@@ -43,4 +44,25 @@ for(let i = 0; i < dish_names.length; i++)
 
     const element = document.getElementById("menu-list");
     element.appendChild(newDish);
+}
+
+let cart = {};
+
+for(let i = 0; i < dish_names.length; i++)
+{
+    let button = document.getElementById(i);
+
+    button.addEventListener("click", function()
+    {
+        if(cart.hasOwnProperty(i))
+        {
+            cart[i] += 1;
+        }
+        else
+        {
+            cart[i] = 1;
+        }
+
+        alert(cart[i]);
+    });
 }
