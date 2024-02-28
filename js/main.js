@@ -63,6 +63,6 @@ for(let i = 0; i < dish_names.length; i++)
             cart[i] = 1;
         }
 
-        alert(cart[i]);
+        //alert(`${dish_names[i]}: ${cart[i]}`);
     });
 }
