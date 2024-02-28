@@ -43,26 +43,58 @@ for(let i = 0; i < dish_names.length; i++)
     newDish.appendChild(addToCartDiv);
 
     const element = document.getElementById("menu-list");
-    element.appendChild(newDish);
+
+    if (element) {
+        element.appendChild(newDish);
+    }
 }
 
-let cart = {};
+let cart = JSON.parse(localStorage.getItem('cart')) || {};
 
 for(let i = 0; i < dish_names.length; i++)
 {
     let button = document.getElementById(i);
 
-    button.addEventListener("click", function()
+    if(button)
     {
-        if(cart.hasOwnProperty(i))
+        button.addEventListener("click", function()
         {
-            cart[i] += 1;
-        }
-        else
-        {
-            cart[i] = 1;
-        }
+            if(cart.hasOwnProperty(i))
+            {
+                cart[i] += 1;
+            }
+            else
+            {
+                cart[i] = 1;
+            }
+    
+            localStorage.setItem('cart', JSON.stringify(cart));
+        });
+    }
+}
 
-        //alert(`${dish_names[i]}: ${cart[i]}`);
-    });
+for(let i = 0; i < dish_names.length; i++)
+{
+    if(cart.hasOwnProperty(i))
+    {
+        displayProductsInCart(i);
+    }
+}
+
+function displayProductsInCart (productId) {
+    let newDish = document.createElement("li");
+
+    let dishName = dish_names[productId];
+    let dishPrice = dish_prices[productId];
+    let quantity = cart[productId];
+
+    let header = document.createElement("h4");
+    let header_text = document.createTextNode(`${dishName}: ${quantity} --- ${dishPrice*quantity} RSD`);
+    header.appendChild(header_text);
+
+    newDish.appendChild(header);
+
+    const element = document.getElementById("cart-items");
+
+    if(element) element.appendChild(newDish);
 }
