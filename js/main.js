@@ -92,7 +92,21 @@ function displayProductsInCart (productId) {
     let header_text = document.createTextNode(`${dishName}: ${quantity} --- ${dishPrice*quantity} RSD`);
     header.appendChild(header_text);
 
+    let increaseButton = document.createElement("button");
+    increaseButton.setAttribute("type", "button");
+    increaseButton.setAttribute("class", "increase-cart-button");
+    increaseButton.setAttribute("id", productId);
+    increaseButton.textContent = "+";
+
+    let decreaseButton = document.createElement("button");
+    decreaseButton.setAttribute("type", "button");
+    decreaseButton.setAttribute("class", "decrease-cart-button");
+    decreaseButton.setAttribute("id", productId);
+    decreaseButton.textContent = "-";
+
     newDish.appendChild(header);
+    newDish.appendChild(increaseButton);
+    newDish.appendChild(decreaseButton);
 
     const element = document.getElementById("cart-items");
 
