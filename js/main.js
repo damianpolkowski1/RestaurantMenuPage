@@ -23,11 +23,6 @@ let items_in_cart = Object.entries(cart).filter(([key, value]) => {
     return value > 0;
 });
 
-for(let i = 0; i < items_in_cart.length; i++)
-{
-    console.log(items_in_cart[i][0] + " " + items_in_cart[i][1] + "\n");
-}
-
 displayNavigationBar("toolbar");
 
 function displayNavigationBar(id) {
@@ -55,13 +50,9 @@ function displayNavigationBar(id) {
         {
             let summed_items = 0;
 
-            for(let j = 0; j < dishes.length; j++)
-            {
-                if(cart.hasOwnProperty(j))
-                {
-                    summed_items += cart[j];
-                }
-            }
+            items_in_cart.forEach(element => {
+                summed_items += element[1];
+            });
 
             if(summed_items !== 0) a_text = document.createTextNode(navbar_content[i].name + ` (${summed_items} Items)`);
             else a_text = document.createTextNode(navbar_content[i].name);
@@ -215,10 +206,9 @@ if(total_amount)
 {
     let sum = 0;
 
-    for(let i = 0; i < dishes.length; i++)
-    {
-        if(cart.hasOwnProperty(i)) sum += parseInt(cart[i] * dishes[i].price);
-    }
+    items_in_cart.forEach(element => {
+        sum += parseInt(element[1] * dishes[element[0]].price);
+    })
 
     if(sum !== 0)
     {
