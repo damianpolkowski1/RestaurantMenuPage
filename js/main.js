@@ -75,7 +75,7 @@ for(let i = 0; i < dish_names.length; i++)
 
 for(let i = 0; i < dish_names.length; i++)
 {
-    if(cart.hasOwnProperty(i))
+    if(cart.hasOwnProperty(i) && cart[i] > 0)
     {
         displayProductsInCart(i);
     }
@@ -101,7 +101,7 @@ function displayProductsInCart (productId) {
     let decreaseButton = document.createElement("button");
     decreaseButton.setAttribute("type", "button");
     decreaseButton.setAttribute("class", "decrease-cart-button");
-    decreaseButton.setAttribute("id", productId);
+    decreaseButton.setAttribute("id", (productId + dish_names.length));
     decreaseButton.textContent = "-";
 
     newDish.appendChild(header);
@@ -111,4 +111,38 @@ function displayProductsInCart (productId) {
     const element = document.getElementById("cart-items");
 
     if(element) element.appendChild(newDish);
+}
+
+let buttons = document.getElementsByClassName("increase-cart-button");
+
+if(buttons)
+{
+    for(let i = 0; i < dish_names.length; i++)
+    {
+        let increase_button = document.getElementById(i);
+
+        if(increase_button)
+        {
+            increase_button.addEventListener("click", function()
+            {
+                cart[i] += 1;
+    
+                localStorage.setItem('cart', JSON.stringify(cart));
+                location.reload();
+            });
+        }
+
+        let decrease_button = document.getElementById(i + dish_names.length)
+
+        if(decrease_button)
+        {
+            decrease_button.addEventListener("click", function()
+            {
+                if(cart[i] > 0) cart[i] -= 1;
+    
+                localStorage.setItem('cart', JSON.stringify(cart));
+                location.reload();
+            });
+        }
+    }
 }
