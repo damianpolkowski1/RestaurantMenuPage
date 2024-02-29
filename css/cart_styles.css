@@ -66,6 +66,12 @@ button {
     margin: 1.5vh;
 }
 
+.checkout-part button {
+    width: 30vh;
+    height: 10vh;
+    font-size: 14px;
+}
+
 .items-list button {
     width: 3vh;
     height: 3vh;

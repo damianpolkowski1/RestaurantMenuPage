@@ -77,11 +77,11 @@ for(let i = 0; i < dish_names.length; i++)
 {
     if(cart.hasOwnProperty(i) && cart[i] > 0)
     {
-        displayProductsInCart(i);
+        displayProductInCart(i);
     }
 }
 
-function displayProductsInCart (productId) {
+function displayProductInCart (productId) {
     let newDish = document.createElement("li");
 
     let dishName = dish_names[productId];
@@ -113,9 +113,7 @@ function displayProductsInCart (productId) {
     if(element) element.appendChild(newDish);
 }
 
-let buttons = document.getElementsByClassName("increase-cart-button");
-
-if(buttons)
+if(displayingPage === 'cart')
 {
     for(let i = 0; i < dish_names.length; i++)
     {
@@ -158,9 +156,27 @@ if(total_amount)
         if(cart.hasOwnProperty(i)) sum += parseInt(cart[i] * dish_prices[i]);
     }
 
-    let summary = document.createElement("h3");
-    let summary_content = document.createTextNode(`Total: ${sum} RSD`);
+    if(sum !== 0)
+    {
+        let summary = document.createElement("h3");
+        let summary_content = document.createTextNode(`Total: ${sum} RSD`);
+        summary.appendChild(summary_content);
 
-    summary.appendChild(summary_content);
-    total_amount.appendChild(summary);
+        let payment_button = document.createElement("button");
+        let button_text = document.createTextNode('Proceed to Payment');
+        payment_button.appendChild(button_text);
+        
+        total_amount.appendChild(summary);
+        total_amount.appendChild(payment_button);
+    }
+    else
+    {
+        let summary = document.createElement("h2");
+        let summary_content = document.createTextNode('Your cart is empty!');
+        summary.style.paddingBottom = '30vh';
+        summary.style.width = '100%';
+        summary.appendChild(summary_content);
+
+        total_amount.appendChild(summary);
+    }
 }
