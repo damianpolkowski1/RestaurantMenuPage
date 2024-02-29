@@ -1,25 +1,77 @@
-let dish_names = ['Pljeskavica', 'Pierogi', 'Żurek', 'Rizotto',
-                'Rosół', 'Bigos', 'Cevapi', 'Sernik', 'Szarlotka'];
+class Dish {
+    constructor(name, price, picture_link) {
+        this.name = name;
+        this.price = price;
+        this.picture_link = picture_link;
+      }
+}
 
-let dish_prices = [660, 720, 530, 580, 410, 650, 700, 360, 380];
+let dishes = [new Dish('Pljeskavica', 660, './assets/pljeskavica.png'),
+            new Dish('Pierogi', 720, './assets/pierogi.png'),
+            new Dish('Żurek', 530, './assets/zurek.png'),
+            new Dish('Rizotto', 580, './assets/rizoto.png'),
+            new Dish('Rosół', 410, './assets/rosol.png'),
+            new Dish('Bigos', 650, './assets/bigos.png'),
+            new Dish('Cevapi', 700, './assets/cevapi.png'),
+            new Dish('Sernik', 360, './assets/sernik.png'),
+            new Dish('Szarlotka', 380, './assets/szarlotka.png')];
 
-let dish_pictures_links = ["./assets/pljeskavica.png",
-                            "./assets/pierogi.png",
-                            "./assets/zurek.png",
-                            "./assets/rizoto.png",
-                            "./assets/rosol.png",
-                            "./assets/bigos.png",
-                            "./assets/cevapi.png",
-                            "./assets/sernik.png",
-                            "./assets/szarlotka.png"];
+function displayNavigationBar(id) {
+    let ul = document.createElement("ul");
+    ul.setAttribute("class", "toolbar-list");
 
-for(let i = 0; i < dish_names.length; i++)
+    let navbar_content = [{link: "./index.html", name: "Start"},
+                        {link: "./menu.html", name: "Menu"},
+                        {link: "./about-us.html", name: "About Us"},
+                        {link: "./cart.html", name: "Cart"}];
+
+    for(let i = 0; i < navbar_content.length; i++)
+    {
+        let li = document.createElement("li");
+        let a = document.createElement("a");
+        a.setAttribute("href", navbar_content[i].link);
+
+        let a_text;
+
+        if(i !== 3)
+        {
+            a_text = document.createTextNode(navbar_content[i].name);
+        }
+        else
+        {
+            let summed_items = 0;
+
+            for(let j = 0; j < dishes.length; j++)
+            {
+                if(cart.hasOwnProperty(j))
+                {
+                    summed_items += cart[j];
+                }
+            }
+
+            if(summed_items !== 0) a_text = document.createTextNode(navbar_content[i].name + ` (${summed_items} Items)`);
+            else a_text = document.createTextNode(navbar_content[i].name);
+        }
+
+        a.appendChild(a_text);
+        li.appendChild(a);
+        ul.appendChild(li);
+    }
+
+    const element = document.getElementById(id);
+
+    if (element) {
+        element.appendChild(ul);
+    }
+}
+
+for(let i = 0; i < dishes.length; i++)
 {
     let newDish = document.createElement("li");
 
-    let dishName = dish_names[i];
-    let dishPrice = dish_prices[i];
-    let pictureLink = dish_pictures_links[i];
+    let dishName = dishes[i].name;
+    let dishPrice = dishes[i].price;
+    let pictureLink = dishes[i].picture_link;
 
     let image = document.createElement("img");
     image.src = pictureLink;
@@ -50,8 +102,9 @@ for(let i = 0; i < dish_names.length; i++)
 }
 
 let cart = JSON.parse(localStorage.getItem('cart')) || {};
+displayNavigationBar("toolbar");
 
-for(let i = 0; i < dish_names.length; i++)
+for(let i = 0; i < dishes.length; i++)
 {
     let button = document.getElementById(i);
 
@@ -69,12 +122,19 @@ for(let i = 0; i < dish_names.length; i++)
             }
     
             localStorage.setItem('cart', JSON.stringify(cart));
+            location.reload();
         });
     }
 }
 
-for(let i = 0; i < dish_names.length; i++)
+//array. map, filter, reduce, forEach
+//callback fn
+//arrow fn
+for(let i = 0; i < dishes.length; i++)
 {
+    Object.entries(cart).map(([key, value], index) => {
+        console.log(key, value, index);
+    })
     if(cart.hasOwnProperty(i) && cart[i] > 0)
     {
         displayProductInCart(i);
@@ -84,8 +144,8 @@ for(let i = 0; i < dish_names.length; i++)
 function displayProductInCart (productId) {
     let newDish = document.createElement("li");
 
-    let dishName = dish_names[productId];
-    let dishPrice = dish_prices[productId];
+    let dishName = dishes[productId].name;
+    let dishPrice = dishes[productId].price;
     let quantity = cart[productId];
 
     let header = document.createElement("h4");
@@ -101,7 +161,7 @@ function displayProductInCart (productId) {
     let decreaseButton = document.createElement("button");
     decreaseButton.setAttribute("type", "button");
     decreaseButton.setAttribute("class", "decrease-cart-button");
-    decreaseButton.setAttribute("id", (productId + dish_names.length));
+    decreaseButton.setAttribute("id", (productId + dishes.length));
     decreaseButton.textContent = "-";
 
     newDish.appendChild(header);
@@ -115,7 +175,7 @@ function displayProductInCart (productId) {
 
 if(displayingPage === 'cart')
 {
-    for(let i = 0; i < dish_names.length; i++)
+    for(let i = 0; i < dishes.length; i++)
     {
         let increase_button = document.getElementById(i);
 
@@ -130,7 +190,7 @@ if(displayingPage === 'cart')
             });
         }
 
-        let decrease_button = document.getElementById(i + dish_names.length)
+        let decrease_button = document.getElementById(i + dishes.length)
 
         if(decrease_button)
         {
@@ -151,9 +211,9 @@ if(total_amount)
 {
     let sum = 0;
 
-    for(let i = 0; i < dish_names.length; i++)
+    for(let i = 0; i < dishes.length; i++)
     {
-        if(cart.hasOwnProperty(i)) sum += parseInt(cart[i] * dish_prices[i]);
+        if(cart.hasOwnProperty(i)) sum += parseInt(cart[i] * dishes[i].price);
     }
 
     if(sum !== 0)
