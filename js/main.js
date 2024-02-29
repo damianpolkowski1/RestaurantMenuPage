@@ -14,7 +14,21 @@ let dishes = [new Dish('Pljeskavica', 660, './assets/pljeskavica.png'),
             new Dish('Bigos', 650, './assets/bigos.png'),
             new Dish('Cevapi', 700, './assets/cevapi.png'),
             new Dish('Sernik', 360, './assets/sernik.png'),
-            new Dish('Szarlotka', 380, './assets/szarlotka.png')];
+            new Dish('Szarlotka', 380, './assets/szarlotka.png'),
+            new Dish('Kotlet Schabowy', 740, './assets/schabowy.png')];
+
+let cart = JSON.parse(localStorage.getItem('cart')) || {};
+
+let items_in_cart = Object.entries(cart).filter(([key, value]) => {
+    return value > 0;
+});
+
+for(let i = 0; i < items_in_cart.length; i++)
+{
+    console.log(items_in_cart[i][0] + " " + items_in_cart[i][1] + "\n");
+}
+
+displayNavigationBar("toolbar");
 
 function displayNavigationBar(id) {
     let ul = document.createElement("ul");
@@ -101,9 +115,6 @@ for(let i = 0; i < dishes.length; i++)
     }
 }
 
-let cart = JSON.parse(localStorage.getItem('cart')) || {};
-displayNavigationBar("toolbar");
-
 for(let i = 0; i < dishes.length; i++)
 {
     let button = document.getElementById(i);
@@ -127,19 +138,9 @@ for(let i = 0; i < dishes.length; i++)
     }
 }
 
-//array. map, filter, reduce, forEach
-//callback fn
-//arrow fn
-for(let i = 0; i < dishes.length; i++)
-{
-    Object.entries(cart).map(([key, value], index) => {
-        console.log(key, value, index);
-    })
-    if(cart.hasOwnProperty(i) && cart[i] > 0)
-    {
-        displayProductInCart(i);
-    }
-}
+items_in_cart.forEach(element => {
+    displayProductInCart(element[0]);
+});
 
 function displayProductInCart (productId) {
     let newDish = document.createElement("li");
@@ -175,34 +176,37 @@ function displayProductInCart (productId) {
 
 if(displayingPage === 'cart')
 {
-    for(let i = 0; i < dishes.length; i++)
-    {
-        let increase_button = document.getElementById(i);
+    items_in_cart.forEach(element => {
+        let increase_button = document.getElementById(element[0]);
 
         if(increase_button)
         {
             increase_button.addEventListener("click", function()
             {
-                cart[i] += 1;
+                cart[element[0]] += 1;
     
                 localStorage.setItem('cart', JSON.stringify(cart));
                 location.reload();
             });
         }
 
-        let decrease_button = document.getElementById(i + dishes.length)
+        let decrease_button = document.getElementById(element[0] + dishes.length);
 
         if(decrease_button)
         {
             decrease_button.addEventListener("click", function()
             {
-                if(cart[i] > 0) cart[i] -= 1;
+                if(cart[element[0]] > 0) cart[element[0]] -= 1;
+                console.log(cart);
+
+                if(cart[element[0]] === 0) delete cart[element[0]];
+                console.log(cart);
     
                 localStorage.setItem('cart', JSON.stringify(cart));
                 location.reload();
             });
         }
-    }
+    })
 }
 
 let total_amount = document.getElementById('total-amount');
