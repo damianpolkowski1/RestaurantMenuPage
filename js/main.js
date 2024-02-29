@@ -36,10 +36,10 @@ for(let i = 0; i < dish_names.length; i++)
     button.setAttribute("id", i);
     button.textContent = "Add to Cart";
 
+    addToCartDiv.appendChild(image);
     addToCartDiv.appendChild(header);
     addToCartDiv.appendChild(button);
 
-    newDish.appendChild(image);
     newDish.appendChild(addToCartDiv);
 
     const element = document.getElementById("menu-list");
@@ -145,4 +145,22 @@ if(buttons)
             });
         }
     }
+}
+
+let total_amount = document.getElementById('total-amount');
+
+if(total_amount)
+{
+    let sum = 0;
+
+    for(let i = 0; i < dish_names.length; i++)
+    {
+        if(cart.hasOwnProperty(i)) sum += parseInt(cart[i] * dish_prices[i]);
+    }
+
+    let summary = document.createElement("h3");
+    let summary_content = document.createTextNode(`Total: ${sum} RSD`);
+
+    summary.appendChild(summary_content);
+    total_amount.appendChild(summary);
 }
