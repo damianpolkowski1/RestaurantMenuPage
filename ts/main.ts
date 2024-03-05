@@ -10,16 +10,7 @@ class Dish {
       }
 }
 
-async function loadDishesFromDB(path:string)
-{
-    const response = await fetch(path);
-    const array = await response.json();
-    return JSON.parse(array);
-}
-
-let dishes: Dish[] = await loadDishesFromDB("http://localhost:2137/dishes");
-
-/*let dishes = [new Dish('Pljeskavica', 660, './assets/pljeskavica.png'),
+let dishes = [new Dish('Pljeskavica', 660, './assets/pljeskavica.png'),
             new Dish('Pierogi', 720, './assets/pierogi.png'),
             new Dish('Żurek', 530, './assets/zurek.png'),
             new Dish('Rizotto', 580, './assets/rizoto.png'),
@@ -28,7 +19,7 @@ let dishes: Dish[] = await loadDishesFromDB("http://localhost:2137/dishes");
             new Dish('Cevapi', 700, './assets/cevapi.png'),
             new Dish('Sernik', 360, './assets/sernik.png'),
             new Dish('Szarlotka', 380, './assets/szarlotka.png'),
-            new Dish('Kotlet Schabowy', 740, './assets/schabowy.png')];*/
+            new Dish('Kotlet Schabowy', 740, './assets/schabowy.png')];
 
 interface Cart {
     [key: string]: number;
@@ -209,7 +200,7 @@ if(returnPageBeingDisplayed() === 'cart')
             });
         }
 
-        let decrease_button = document.getElementById(element[0] + dishes.length);
+        let decrease_button = document.getElementById(String(Number(element[0]) + dishes.length));
 
         if(decrease_button)
         {
@@ -262,5 +253,3 @@ if(total_amount)
         total_amount.appendChild(summary);
     }
 }
-
-export {}
