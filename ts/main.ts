@@ -10,7 +10,16 @@ class Dish {
       }
 }
 
-let dishes = [new Dish('Pljeskavica', 660, './assets/pljeskavica.png'),
+async function loadDishesFromDB(path:string)
+{
+    const response = await fetch(path);
+    const array = await response.json();
+    return JSON.parse(array);
+}
+
+let dishes: Dish[] = await loadDishesFromDB("http://localhost:2137/dishes");
+
+/*let dishes = [new Dish('Pljeskavica', 660, './assets/pljeskavica.png'),
             new Dish('Pierogi', 720, './assets/pierogi.png'),
             new Dish('Żurek', 530, './assets/zurek.png'),
             new Dish('Rizotto', 580, './assets/rizoto.png'),
@@ -19,7 +28,7 @@ let dishes = [new Dish('Pljeskavica', 660, './assets/pljeskavica.png'),
             new Dish('Cevapi', 700, './assets/cevapi.png'),
             new Dish('Sernik', 360, './assets/sernik.png'),
             new Dish('Szarlotka', 380, './assets/szarlotka.png'),
-            new Dish('Kotlet Schabowy', 740, './assets/schabowy.png')];
+            new Dish('Kotlet Schabowy', 740, './assets/schabowy.png')];*/
 
 interface Cart {
     [key: string]: number;
@@ -44,7 +53,7 @@ let items_in_cart = Object.entries(cart).filter(([key, value]) => {
 
 displayNavigationBar("toolbar");
 
-function displayNavigationBar(id) {
+function displayNavigationBar(id: string) {
     let ul = document.createElement("ul");
     ul.setAttribute("class", "toolbar-list");
 
@@ -149,10 +158,10 @@ for(let i = 0; i < dishes.length; i++)
 }
 
 items_in_cart.forEach(element => {
-    displayProductInCart(element[0]);
+    displayProductInCart(Number(element[0]));
 });
 
-function displayProductInCart (productId) {
+function displayProductInCart (productId: number) {
     let newDish = document.createElement("li");
 
     let dishName = dishes[productId].name;
@@ -166,13 +175,13 @@ function displayProductInCart (productId) {
     let increaseButton = document.createElement("button");
     increaseButton.setAttribute("type", "button");
     increaseButton.setAttribute("class", "increase-cart-button");
-    increaseButton.setAttribute("id", productId);
+    increaseButton.setAttribute("id", String(productId));
     increaseButton.textContent = "+";
 
     let decreaseButton = document.createElement("button");
     decreaseButton.setAttribute("type", "button");
     decreaseButton.setAttribute("class", "decrease-cart-button");
-    decreaseButton.setAttribute("id", (productId + dishes.length));
+    decreaseButton.setAttribute("id", String(productId + dishes.length));
     decreaseButton.textContent = "-";
 
     newDish.appendChild(header);
@@ -226,7 +235,7 @@ if(total_amount)
     let sum = 0;
 
     items_in_cart.forEach(element => {
-        sum += element[1] * dishes[element[0]].price;
+        sum += element[1] * dishes[Number(element[0])].price;
     })
 
     if(sum !== 0)
@@ -253,3 +262,5 @@ if(total_amount)
         total_amount.appendChild(summary);
     }
 }
+
+export {}

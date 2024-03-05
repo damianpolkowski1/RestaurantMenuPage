@@ -1,0 +1,12 @@
+{
+    "dishes" : [{"name":"Pljeskavica", "price":660, "picture_link":"./assets/pljeskavica.png"},
+                {"name":"Pierogi", "price":720, "picture_link":"./assets/pierogi.png"},
+                {"name":"Żurek", "price":530, "picture_link":"./assets/zurek.png"},
+                {"name":"Rizotto", "price":580, "picture_link":"./assets/rizoto.png"},
+                {"name":"Rosół", "price":410, "picture_link":"./assets/rosol.png"},
+                {"name":"Bigos", "price":650, "picture_link":"./assets/bigos.png"},
+                {"name":"Cevapi", "price":700, "picture_link":"./assets/cevapi.png"},
+                {"name":"Sernik", "price":360, "picture_link":"./assets/sernik.png"},
+                {"name":"Szarlotka", "price":380, "picture_link":"./assets/szarlotka.png"},
+                {"name":"Kotlet Schabowy", "price":740, "picture_link":"./assets/schabowy.png"}]
+}
