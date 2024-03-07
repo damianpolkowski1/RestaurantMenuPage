@@ -1,3 +1,6 @@
+import { dishes } from "./data";
+import { items_in_cart } from "./index";
+
 class Dish {
     name: string;
     price: number;
@@ -10,17 +13,6 @@ class Dish {
       }
 }
 
-let dishes = [new Dish('Pljeskavica', 660, './assets/pljeskavica.png'),
-            new Dish('Pierogi', 720, './assets/pierogi.png'),
-            new Dish('Żurek', 530, './assets/zurek.png'),
-            new Dish('Rizotto', 580, './assets/rizoto.png'),
-            new Dish('Rosół', 410, './assets/rosol.png'),
-            new Dish('Bigos', 650, './assets/bigos.png'),
-            new Dish('Cevapi', 700, './assets/cevapi.png'),
-            new Dish('Sernik', 360, './assets/sernik.png'),
-            new Dish('Szarlotka', 380, './assets/szarlotka.png'),
-            new Dish('Kotlet Schabowy', 740, './assets/schabowy.png')];
-
 interface Cart {
     [key: string]: number;
 }
@@ -32,19 +24,7 @@ function returnPageBeingDisplayed():string {
     return pageName;
 }
 
-let cart:Cart;
-
-let item = localStorage.getItem('cart');
-if(item) cart = JSON.parse(item);
-else cart = {};
-
-let items_in_cart = Object.entries(cart).filter(([key, value]) => {
-    return value > 0;
-});
-
-displayNavigationBar("toolbar");
-
-function displayNavigationBar(id: string) {
+export function displayNavigationBar(id: string) {
     let ul = document.createElement("ul");
     ul.setAttribute("class", "toolbar-list");
 
@@ -89,70 +69,74 @@ function displayNavigationBar(id: string) {
     }
 }
 
-for(let i = 0; i < dishes.length; i++)
+export function renderDishesInMenu(cart: Cart)
 {
-    let newDish = document.createElement("li");
-
-    let dishName = dishes[i].name;
-    let dishPrice = dishes[i].price;
-    let pictureLink = dishes[i].picture_link;
-
-    let image = document.createElement("img");
-    image.src = pictureLink;
-
-    let addToCartDiv = document.createElement("div");
-    addToCartDiv.classList.add("add-to-cart-button");
-
-    let header = document.createElement("h4");
-    let header_text = document.createTextNode(`${dishName} (${dishPrice} RSD)`);
-    header.appendChild(header_text);
-
-    let button = document.createElement("button");
-    button.setAttribute("type", "button");
-    button.setAttribute("id", String(i));
-    button.textContent = "Add to Cart";
-
-    addToCartDiv.appendChild(image);
-    addToCartDiv.appendChild(header);
-    addToCartDiv.appendChild(button);
-
-    newDish.appendChild(addToCartDiv);
-
-    const element = document.getElementById("menu-list");
-
-    if (element) {
-        element.appendChild(newDish);
-    }
-}
-
-for(let i = 0; i < dishes.length; i++)
-{
-    let button = document.getElementById(String(i));
-
-    if(button)
+    for(let i = 0; i < dishes.length; i++)
     {
-        button.addEventListener("click", function()
+        let newDish = document.createElement("li");
+
+        let dishName = dishes[i].name;
+        let dishPrice = dishes[i].price;
+        let pictureLink = dishes[i].picture_link;
+
+        let image = document.createElement("img");
+        image.src = pictureLink;
+
+        let addToCartDiv = document.createElement("div");
+        addToCartDiv.classList.add("add-to-cart-button");
+
+        let header = document.createElement("h4");
+        let header_text = document.createTextNode(`${dishName} (${dishPrice} RSD)`);
+        header.appendChild(header_text);
+
+        let button = document.createElement("button");
+        button.setAttribute("type", "button");
+        button.setAttribute("id", String(i));
+        button.textContent = "Add to Cart";
+
+        addToCartDiv.appendChild(image);
+        addToCartDiv.appendChild(header);
+        addToCartDiv.appendChild(button);
+
+        newDish.appendChild(addToCartDiv);
+
+        const element = document.getElementById("menu-list");
+
+        if (element) {
+            element.appendChild(newDish);
+        }
+    }
+
+    listenToMenuButtonsEvent(cart);
+}
+
+function listenToMenuButtonsEvent(cart: Cart)
+{
+    for(let i = 0; i < dishes.length; i++)
+    {
+        let button = document.getElementById(String(i));
+
+        if(button)
         {
-            if(cart.hasOwnProperty(i))
+            button.addEventListener("click", function()
             {
-                cart[i] += 1;
-            }
-            else
-            {
-                cart[i] = 1;
-            }
-    
-            localStorage.setItem('cart', JSON.stringify(cart));
-            location.reload();
-        });
+                if(cart.hasOwnProperty(i))
+                {
+                    cart[i] += 1;
+                }
+                else
+                {
+                    cart[i] = 1;
+                }
+        
+                localStorage.setItem('cart', JSON.stringify(cart));
+                location.reload();
+            });
+        }
     }
 }
 
-items_in_cart.forEach(element => {
-    displayProductInCart(Number(element[0]));
-});
-
-function displayProductInCart (productId: number) {
+export function displayProductsInCart (productId: number, cart: Cart) {
     let newDish = document.createElement("li");
 
     let dishName = dishes[productId].name;
@@ -184,7 +168,9 @@ function displayProductInCart (productId: number) {
     if(element) element.appendChild(newDish);
 }
 
-if(returnPageBeingDisplayed() === 'cart')
+export function listenToCartButtonsEvent(cart: Cart)
+{
+    if(returnPageBeingDisplayed() === 'cart')
 {
     items_in_cart.forEach(element => {
         let increase_button = document.getElementById(element[0]);
@@ -218,38 +204,40 @@ if(returnPageBeingDisplayed() === 'cart')
         }
     })
 }
+}
 
-let total_amount = document.getElementById('total-amount');
-
-if(total_amount)
+export function generateCartSummary(total_amount: HTMLElement | null)
 {
-    let sum = 0;
-
-    items_in_cart.forEach(element => {
-        sum += element[1] * dishes[Number(element[0])].price;
-    })
-
-    if(sum !== 0)
+    if(total_amount)
     {
-        let summary = document.createElement("h3");
-        let summary_content = document.createTextNode(`Total: ${sum} RSD`);
-        summary.appendChild(summary_content);
+        let sum = 0;
 
-        let payment_button = document.createElement("button");
-        let button_text = document.createTextNode('Proceed to Payment');
-        payment_button.appendChild(button_text);
-        
-        total_amount.appendChild(summary);
-        total_amount.appendChild(payment_button);
-    }
-    else
-    {
-        let summary = document.createElement("h2");
-        let summary_content = document.createTextNode('Your cart is empty!');
-        summary.style.paddingBottom = '30vh';
-        summary.style.width = '100%';
-        summary.appendChild(summary_content);
+        items_in_cart.forEach(element => {
+            sum += element[1] * dishes[Number(element[0])].price;
+        })
 
-        total_amount.appendChild(summary);
+        if(sum !== 0)
+        {
+            let summary = document.createElement("h3");
+            let summary_content = document.createTextNode(`Total: ${sum} RSD`);
+            summary.appendChild(summary_content);
+
+            let payment_button = document.createElement("button");
+            let button_text = document.createTextNode('Proceed to Payment');
+            payment_button.appendChild(button_text);
+            
+            total_amount.appendChild(summary);
+            total_amount.appendChild(payment_button);
+        }
+        else
+        {
+            let summary = document.createElement("h2");
+            let summary_content = document.createTextNode('Your cart is empty!');
+            summary.style.paddingBottom = '30vh';
+            summary.style.width = '100%';
+            summary.appendChild(summary_content);
+
+            total_amount.appendChild(summary);
+        }
     }
 }

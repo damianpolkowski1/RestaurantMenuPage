@@ -66,6 +66,10 @@ button {
     margin: 1.5vh;
 }
 
+button .increase-cart-button .decrease-cart-button {
+    padding: 0vh;
+}
+
 .checkout-part button {
     width: 30vh;
     height: 10vh;

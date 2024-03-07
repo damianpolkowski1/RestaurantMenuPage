@@ -25,7 +25,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
-    "start": "webpack --config webpack.config.js"
+    "start": "webpack --config webpack.config.js",
+    "watch-compile-ts-js": "tsc ./ts/index.ts ./ts/utils.ts ./ts/data.ts --outDir ./src --watch"
   },
   "keywords": [],
   "author": "",

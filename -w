@@ -1,0 +1,80 @@
+ts/main.ts(32,12): error TS2304: Cannot find name 'localStorage'.
+ts/main.ts(44,19): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+ts/main.ts(50,17): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+ts/main.ts(53,24): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+ts/main.ts(56,18): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+ts/main.ts(57,23): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+ts/main.ts(60,18): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+ts/main.ts(71,21): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+ts/main.ts(80,18): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+ts/main.ts(95,13): error TS2304: Cannot find name 'localStorage'.
+ts/main.ts(96,13): error TS2304: Cannot find name 'location'.
+ts/main.ts(106,19): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+ts/main.ts(112,18): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+ts/main.ts(113,23): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+ts/main.ts(116,26): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+ts/main.ts(122,26): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+ts/main.ts(132,21): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+ts/main.ts(140,31): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+ts/main.ts(148,17): error TS2304: Cannot find name 'localStorage'.
+ts/main.ts(149,17): error TS2304: Cannot find name 'location'.
+ts/main.ts(153,31): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+ts/main.ts(160,17): error TS2584: Cannot find name 'console'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+ts/main.ts(163,17): error TS2584: Cannot find name 'console'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+ts/main.ts(165,17): error TS2304: Cannot find name 'localStorage'.
+ts/main.ts(166,17): error TS2304: Cannot find name 'location'.
+ts/main.ts(172,20): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+ts/main.ts(184,23): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+ts/main.ts(185,31): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+ts/main.ts(188,30): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+ts/main.ts(189,27): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+ts/main.ts(197,23): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+ts/main.ts(198,31): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+ts/utils.ts(2,30): error TS2304: Cannot find name 'window'.
+ts/utils.ts(9,14): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+ts/utils.ts(19,18): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+ts/utils.ts(20,17): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+ts/utils.ts(27,22): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+ts/utils.ts(37,45): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+ts/utils.ts(38,27): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+ts/utils.ts(46,21): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+../../../RestaurantMenuPage/ts/main.ts(29,30): error TS2304: Cannot find name 'window'.
+../../../RestaurantMenuPage/ts/main.ts(37,12): error TS2304: Cannot find name 'localStorage'.
+../../../RestaurantMenuPage/ts/main.ts(48,14): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+../../../RestaurantMenuPage/ts/main.ts(58,18): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+../../../RestaurantMenuPage/ts/main.ts(59,17): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+../../../RestaurantMenuPage/ts/main.ts(66,22): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+../../../RestaurantMenuPage/ts/main.ts(76,45): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+../../../RestaurantMenuPage/ts/main.ts(77,27): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+../../../RestaurantMenuPage/ts/main.ts(85,21): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+../../../RestaurantMenuPage/ts/main.ts(94,19): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+../../../RestaurantMenuPage/ts/main.ts(100,17): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+../../../RestaurantMenuPage/ts/main.ts(103,24): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+../../../RestaurantMenuPage/ts/main.ts(106,18): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+../../../RestaurantMenuPage/ts/main.ts(107,23): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+../../../RestaurantMenuPage/ts/main.ts(110,18): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+../../../RestaurantMenuPage/ts/main.ts(121,21): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+../../../RestaurantMenuPage/ts/main.ts(130,18): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+../../../RestaurantMenuPage/ts/main.ts(145,13): error TS2304: Cannot find name 'localStorage'.
+../../../RestaurantMenuPage/ts/main.ts(146,13): error TS2304: Cannot find name 'location'.
+../../../RestaurantMenuPage/ts/main.ts(156,19): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+../../../RestaurantMenuPage/ts/main.ts(162,18): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+../../../RestaurantMenuPage/ts/main.ts(163,23): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+../../../RestaurantMenuPage/ts/main.ts(166,26): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+../../../RestaurantMenuPage/ts/main.ts(172,26): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+../../../RestaurantMenuPage/ts/main.ts(182,21): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+../../../RestaurantMenuPage/ts/main.ts(190,31): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+../../../RestaurantMenuPage/ts/main.ts(198,17): error TS2304: Cannot find name 'localStorage'.
+../../../RestaurantMenuPage/ts/main.ts(199,17): error TS2304: Cannot find name 'location'.
+../../../RestaurantMenuPage/ts/main.ts(203,31): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+../../../RestaurantMenuPage/ts/main.ts(210,17): error TS2584: Cannot find name 'console'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+../../../RestaurantMenuPage/ts/main.ts(213,17): error TS2584: Cannot find name 'console'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+../../../RestaurantMenuPage/ts/main.ts(215,17): error TS2304: Cannot find name 'localStorage'.
+../../../RestaurantMenuPage/ts/main.ts(216,17): error TS2304: Cannot find name 'location'.
+../../../RestaurantMenuPage/ts/main.ts(222,20): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+../../../RestaurantMenuPage/ts/main.ts(234,23): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+../../../RestaurantMenuPage/ts/main.ts(235,31): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+../../../RestaurantMenuPage/ts/main.ts(238,30): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+../../../RestaurantMenuPage/ts/main.ts(239,27): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+../../../RestaurantMenuPage/ts/main.ts(247,23): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.
+../../../RestaurantMenuPage/ts/main.ts(248,31): error TS2584: Cannot find name 'document'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.

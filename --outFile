@@ -1,0 +1,7 @@
+c09:41:13 - Starting compilation in watch mode...
+
+error TS6504: File 'src/index.js' is a JavaScript file. Did you mean to enable the 'allowJs' option?
+  The file is in the program because:
+    Root file specified for compilation
+
+09:41:15 - Found 1 error. Watching for file changes.
