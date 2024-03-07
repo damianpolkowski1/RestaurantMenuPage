@@ -57,7 +57,7 @@ body {
     margin-top: 1vh;
 }
 
-button {
+.menu_button {
     background-color: rgb(0, 0, 0);
     border: none;
     color: white;

@@ -11,9 +11,9 @@ var Dish = /** @class */ (function () {
 }());
 var dishes = [new Dish('Pljeskavica', 660, './images/pljeskavica.png'),
     new Dish('Pierogi', 720, './images/pierogi.png'),
-    new Dish('Żurek', 530, './images/zurek.png'),
+    new Dish('Zurek', 530, './images/zurek.png'),
     new Dish('Rizotto', 580, './images/rizoto.png'),
-    new Dish('Rosół', 410, './images/rosol.png'),
+    new Dish('Rosol', 410, './images/rosol.png'),
     new Dish('Bigos', 650, './images/bigos.png'),
     new Dish('Cevapi', 700, './images/cevapi.png'),
     new Dish('Sernik', 360, './images/sernik.png'),

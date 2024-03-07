@@ -69,6 +69,7 @@ function renderDishesInMenu(cart) {
         header.appendChild(header_text);
         var button = document.createElement("button");
         button.setAttribute("type", "button");
+        button.setAttribute("class", "menu_button");
         button.setAttribute("id", String(i));
         button.textContent = "Add to Cart";
         addToCartDiv.appendChild(image);

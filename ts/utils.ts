@@ -91,6 +91,7 @@ export function renderDishesInMenu(cart: Cart)
 
         let button = document.createElement("button");
         button.setAttribute("type", "button");
+        button.setAttribute("class", "menu_button");
         button.setAttribute("id", String(i));
         button.textContent = "Add to Cart";
 
