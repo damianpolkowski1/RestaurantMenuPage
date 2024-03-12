@@ -1,16 +1,44 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateCartSummary = exports.listenToCartButtonsEvent = exports.displayProductsInCart = exports.renderDishesInMenu = exports.displayNavigationBar = void 0;
-var data_1 = require("./data");
 var index_1 = require("./index");
-var Dish = /** @class */ (function () {
-    function Dish(name, price, picture_link) {
-        this.name = name;
-        this.price = price;
-        this.picture_link = picture_link;
-    }
-    return Dish;
-}());
+var api_utils_1 = require("./api-utils");
 function returnPageBeingDisplayed() {
     var currentPath = window.location.pathname;
     var pageName = currentPath.substring(currentPath.lastIndexOf("/") + 1, currentPath.lastIndexOf("."));
@@ -55,133 +83,182 @@ function displayNavigationBar(id) {
 }
 exports.displayNavigationBar = displayNavigationBar;
 function renderDishesInMenu(cart) {
-    for (var i = 0; i < data_1.dishes.length; i++) {
-        var newDish = document.createElement("li");
-        var dishName = data_1.dishes[i].name;
-        var dishPrice = data_1.dishes[i].price;
-        var pictureLink = data_1.dishes[i].picture_link;
-        var image = document.createElement("img");
-        image.src = pictureLink;
-        var addToCartDiv = document.createElement("div");
-        addToCartDiv.classList.add("add-to-cart-button");
-        var header = document.createElement("h4");
-        var header_text = document.createTextNode("".concat(dishName, " (").concat(dishPrice, " RSD)"));
-        header.appendChild(header_text);
-        var button = document.createElement("button");
-        button.setAttribute("type", "button");
-        button.setAttribute("class", "menu_button");
-        button.setAttribute("id", String(i));
-        button.textContent = "Add to Cart";
-        addToCartDiv.appendChild(image);
-        addToCartDiv.appendChild(header);
-        addToCartDiv.appendChild(button);
-        newDish.appendChild(addToCartDiv);
-        var element = document.getElementById("menu-list");
-        if (element) {
-            element.appendChild(newDish);
-        }
-    }
-    listenToMenuButtonsEvent(cart);
+    return __awaiter(this, void 0, void 0, function () {
+        var dishes_list;
+        return __generator(this, function (_a) {
+            dishes_list = [];
+            (0, api_utils_1.getDishesData)('http://localhost:2137/dish')
+                .then(function (data) {
+                dishes_list = data;
+                for (var i = 0; i < dishes_list.length; i++) {
+                    var newDish = document.createElement("li");
+                    var dishName = dishes_list[i].name;
+                    var dishPrice = dishes_list[i].price;
+                    var pictureLink = dishes_list[i].picture_link;
+                    var image = document.createElement("img");
+                    image.src = pictureLink;
+                    var addToCartDiv = document.createElement("div");
+                    addToCartDiv.classList.add("add-to-cart-button");
+                    var header = document.createElement("h4");
+                    var header_text = document.createTextNode("".concat(dishName, " (").concat(dishPrice, " RSD)"));
+                    header.appendChild(header_text);
+                    var button = document.createElement("button");
+                    button.setAttribute("type", "button");
+                    button.setAttribute("class", "menu_button");
+                    button.setAttribute("id", String(i));
+                    button.textContent = "Add to Cart";
+                    addToCartDiv.appendChild(image);
+                    addToCartDiv.appendChild(header);
+                    addToCartDiv.appendChild(button);
+                    newDish.appendChild(addToCartDiv);
+                    var element = document.getElementById("menu-list");
+                    if (element) {
+                        element.appendChild(newDish);
+                    }
+                }
+                listenToMenuButtonsEvent(cart);
+            });
+            return [2 /*return*/];
+        });
+    });
 }
 exports.renderDishesInMenu = renderDishesInMenu;
 function listenToMenuButtonsEvent(cart) {
-    var _loop_2 = function (i) {
-        var button = document.getElementById(String(i));
-        if (button) {
-            button.addEventListener("click", function () {
-                if (cart.hasOwnProperty(i)) {
-                    cart[i] += 1;
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            (0, api_utils_1.getDishesLength)('http://localhost:2137/dish/number')
+                .then(function (data) {
+                var _loop_2 = function (i) {
+                    var button = document.getElementById(String(i));
+                    if (button) {
+                        button.addEventListener("click", function () {
+                            if (cart.hasOwnProperty(i)) {
+                                cart[i] += 1;
+                            }
+                            else {
+                                cart[i] = 1;
+                            }
+                            localStorage.setItem('cart', JSON.stringify(cart));
+                            location.reload();
+                        });
+                    }
+                };
+                for (var i = 0; i < data; i++) {
+                    _loop_2(i);
                 }
-                else {
-                    cart[i] = 1;
-                }
-                localStorage.setItem('cart', JSON.stringify(cart));
-                location.reload();
             });
-        }
-    };
-    for (var i = 0; i < data_1.dishes.length; i++) {
-        _loop_2(i);
-    }
+            return [2 /*return*/];
+        });
+    });
 }
 function displayProductsInCart(productId, cart) {
-    var newDish = document.createElement("li");
-    var dishName = data_1.dishes[productId].name;
-    var dishPrice = data_1.dishes[productId].price;
-    var quantity = cart[productId];
-    var header = document.createElement("h4");
-    var header_text = document.createTextNode("".concat(dishName, ": ").concat(quantity, " --- ").concat(dishPrice * quantity, " RSD"));
-    header.appendChild(header_text);
-    var increaseButton = document.createElement("button");
-    increaseButton.setAttribute("type", "button");
-    increaseButton.setAttribute("class", "increase-cart-button");
-    increaseButton.setAttribute("id", String(productId));
-    increaseButton.textContent = "+";
-    var decreaseButton = document.createElement("button");
-    decreaseButton.setAttribute("type", "button");
-    decreaseButton.setAttribute("class", "decrease-cart-button");
-    decreaseButton.setAttribute("id", String(productId + data_1.dishes.length));
-    decreaseButton.textContent = "-";
-    newDish.appendChild(header);
-    newDish.appendChild(increaseButton);
-    newDish.appendChild(decreaseButton);
-    var element = document.getElementById("cart-items");
-    if (element)
-        element.appendChild(newDish);
+    return __awaiter(this, void 0, void 0, function () {
+        var dish_to_display;
+        return __generator(this, function (_a) {
+            (0, api_utils_1.getSpecificDish)(String(productId))
+                .then(function (data) {
+                dish_to_display = data;
+                var newDish = document.createElement("li");
+                var dishName = dish_to_display.name;
+                var dishPrice = dish_to_display.price;
+                var quantity = cart[productId];
+                var header = document.createElement("h4");
+                var header_text = document.createTextNode("".concat(dishName, ": ").concat(quantity, " --- ").concat(dishPrice * quantity, " RSD"));
+                header.appendChild(header_text);
+                var increaseButton = document.createElement("button");
+                increaseButton.setAttribute("type", "button");
+                increaseButton.setAttribute("class", "increase-cart-button");
+                increaseButton.setAttribute("id", String(productId));
+                increaseButton.textContent = "+";
+                (0, api_utils_1.getDishesLength)('http://localhost:2137/dish/number')
+                    .then(function (data) {
+                    var decreaseButton = document.createElement("button");
+                    decreaseButton.setAttribute("type", "button");
+                    decreaseButton.setAttribute("class", "decrease-cart-button");
+                    decreaseButton.setAttribute("id", String(productId + data));
+                    decreaseButton.textContent = "-";
+                    newDish.appendChild(header);
+                    newDish.appendChild(increaseButton);
+                    newDish.appendChild(decreaseButton);
+                    var element = document.getElementById("cart-items");
+                    if (element)
+                        element.appendChild(newDish);
+                });
+            });
+            return [2 /*return*/];
+        });
+    });
 }
 exports.displayProductsInCart = displayProductsInCart;
 function listenToCartButtonsEvent(cart) {
-    if (returnPageBeingDisplayed() === 'cart') {
-        index_1.items_in_cart.forEach(function (element) {
-            var increase_button = document.getElementById(element[0]);
-            if (increase_button) {
-                increase_button.addEventListener("click", function () {
-                    cart[element[0]] += 1;
-                    localStorage.setItem('cart', JSON.stringify(cart));
-                    location.reload();
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            if (returnPageBeingDisplayed() === 'cart') {
+                (0, api_utils_1.getDishesLength)('http://localhost:2137/dish/number')
+                    .then(function (data) {
+                    index_1.items_in_cart.forEach(function (element) {
+                        var increase_button = document.getElementById(element[0]);
+                        if (increase_button) {
+                            increase_button.addEventListener("click", function () {
+                                cart[element[0]] += 1;
+                                localStorage.setItem('cart', JSON.stringify(cart));
+                                location.reload();
+                            });
+                        }
+                        var decrease_button = document.getElementById(String(Number(element[0]) + data));
+                        if (decrease_button) {
+                            decrease_button.addEventListener("click", function () {
+                                if (cart[element[0]] > 0)
+                                    cart[element[0]] -= 1;
+                                console.log(cart);
+                                if (cart[element[0]] === 0)
+                                    delete cart[element[0]];
+                                console.log(cart);
+                                localStorage.setItem('cart', JSON.stringify(cart));
+                                location.reload();
+                            });
+                        }
+                    });
                 });
             }
-            var decrease_button = document.getElementById(String(Number(element[0]) + data_1.dishes.length));
-            if (decrease_button) {
-                decrease_button.addEventListener("click", function () {
-                    if (cart[element[0]] > 0)
-                        cart[element[0]] -= 1;
-                    console.log(cart);
-                    if (cart[element[0]] === 0)
-                        delete cart[element[0]];
-                    console.log(cart);
-                    localStorage.setItem('cart', JSON.stringify(cart));
-                    location.reload();
-                });
-            }
+            return [2 /*return*/];
         });
-    }
+    });
 }
 exports.listenToCartButtonsEvent = listenToCartButtonsEvent;
 function generateCartSummary(total_amount) {
-    if (total_amount) {
-        var sum_1 = 0;
-        index_1.items_in_cart.forEach(function (element) {
-            sum_1 += element[1] * data_1.dishes[Number(element[0])].price;
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            if (total_amount) {
+                (0, api_utils_1.getDishesData)('http://localhost:2137/dish')
+                    .then(function (data) {
+                    var dishes_list = data;
+                    var sum = 0;
+                    index_1.items_in_cart.forEach(function (element) {
+                        sum += element[1] * dishes_list[Number(element[0])].price;
+                    });
+                    if (sum !== 0) {
+                        var summary = document.createElement("h3");
+                        var summary_content = document.createTextNode("Total: ".concat(sum, " RSD"));
+                        summary.appendChild(summary_content);
+                        var payment_button = document.createElement("button");
+                        var button_text = document.createTextNode('Proceed to Payment');
+                        payment_button.appendChild(button_text);
+                        total_amount.appendChild(summary);
+                        total_amount.appendChild(payment_button);
+                    }
+                    else {
+                        var summary = document.createElement("h2");
+                        var summary_content = document.createTextNode('Your cart is empty!');
+                        summary.style.paddingBottom = '30vh';
+                        summary.style.width = '100%';
+                        summary.appendChild(summary_content);
+                        total_amount.appendChild(summary);
+                    }
+                });
+            }
+            return [2 /*return*/];
         });
-        if (sum_1 !== 0) {
-            var summary = document.createElement("h3");
-            var summary_content = document.createTextNode("Total: ".concat(sum_1, " RSD"));
-            summary.appendChild(summary_content);
-            var payment_button = document.createElement("button");
-            var button_text = document.createTextNode('Proceed to Payment');
-            payment_button.appendChild(button_text);
-            total_amount.appendChild(summary);
-            total_amount.appendChild(payment_button);
-        }
-        else {
-            var summary = document.createElement("h2");
-            var summary_content = document.createTextNode('Your cart is empty!');
-            summary.style.paddingBottom = '30vh';
-            summary.style.width = '100%';
-            summary.appendChild(summary_content);
-            total_amount.appendChild(summary);
-        }
-    }
+    });
 }
 exports.generateCartSummary = generateCartSummary;

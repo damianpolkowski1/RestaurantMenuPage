@@ -7,18 +7,7 @@ import axios from '../node_modules/axios/index';
 
 import {displayNavigationBar, renderDishesInMenu, displayProductsInCart,
         generateCartSummary, listenToCartButtonsEvent} from './utils';
-
-class Dish {
-    name: string;
-    price: number;
-    picture_link: string;
-
-    constructor(name: string, price: number, picture_link: string) {
-        this.name = name;
-        this.price = price;
-        this.picture_link = picture_link;
-      }
-}
+import { Dish } from './data';
 
 interface Cart {
     [key: string]: number;
@@ -46,46 +35,5 @@ listenToCartButtonsEvent(cart);
 let total_amount: HTMLElement | null = document.getElementById('total-amount');
 
 generateCartSummary(total_amount);
-
-async function getAllDishes()
-{
-    try
-    {
-      const response = await fetch('http://localhost:2137/dish');
-      
-      if (!response.ok)
-      {
-        throw new Error('Bajo jajo, server not working');
-      }
-      
-      const data = await response.json();
-      console.log(data);
-    }
-    catch (error)
-    {
-      console.error('Error happenned: ', error);
-    }
-}
-
-async function getSpecificDish(id: string) {
-    try
-    {
-      const response = await fetch('http://localhost:2137/dish/' + id);
-      
-      if (!response.ok)
-      {
-        throw new Error('Bajo jajo, server not working');
-      }
-      
-      const data = await response.json();
-      console.log(data);
-    }
-    catch (error)
-    {
-      console.error('Error happened: ', error);
-    }
-}
-
-getAllDishes();
 
 export {items_in_cart};
