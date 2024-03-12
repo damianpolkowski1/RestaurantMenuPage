@@ -3,6 +3,7 @@ import './css/about-us_styles.css';
 import './css/cart_styles.css';
 import './css/index_styles.css';
 import './css/menu_styles.css';
+import axios from '../node_modules/axios/index';
 
 import {displayNavigationBar, renderDishesInMenu, displayProductsInCart,
         generateCartSummary, listenToCartButtonsEvent} from './utils';
@@ -45,5 +46,46 @@ listenToCartButtonsEvent(cart);
 let total_amount: HTMLElement | null = document.getElementById('total-amount');
 
 generateCartSummary(total_amount);
+
+async function getAllDishes()
+{
+    try
+    {
+      const response = await fetch('http://localhost:2137/dish');
+      
+      if (!response.ok)
+      {
+        throw new Error('Bajo jajo, server not working');
+      }
+      
+      const data = await response.json();
+      console.log(data);
+    }
+    catch (error)
+    {
+      console.error('Error happenned: ', error);
+    }
+}
+
+async function getSpecificDish(id: string) {
+    try
+    {
+      const response = await fetch('http://localhost:2137/dish/' + id);
+      
+      if (!response.ok)
+      {
+        throw new Error('Bajo jajo, server not working');
+      }
+      
+      const data = await response.json();
+      console.log(data);
+    }
+    catch (error)
+    {
+      console.error('Error happened: ', error);
+    }
+}
+
+getAllDishes();
 
 export {items_in_cart};

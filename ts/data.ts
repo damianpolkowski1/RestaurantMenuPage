@@ -10,6 +10,8 @@ class Dish {
       }
 }
 
+
+
 let dishes = [new Dish('Pljeskavica', 660, './images/pljeskavica.png'),
             new Dish('Pierogi', 720, './images/pierogi.png'),
             new Dish('Zurek', 530, './images/zurek.png'),
