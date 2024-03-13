@@ -23,6 +23,5 @@ exports.items_in_cart = items_in_cart;
 items_in_cart.forEach(function (element) {
     (0, utils_1.displayProductsInCart)(Number(element[0]), cart);
 });
-(0, utils_1.listenToCartButtonsEvent)(cart);
 var total_amount = document.getElementById('total-amount');
 (0, utils_1.generateCartSummary)(total_amount);

@@ -1,6 +1,6 @@
 import { items_in_cart } from "./index";
 import { getDishesData, getSpecificDish, getDishesLength } from "./api-utils";
-import { Dish, dishes } from "./data";
+import { Dish } from "./data";
 
 interface Cart {
     [key: string]: number;
@@ -69,7 +69,7 @@ export async function renderDishesInMenu(cart: Cart)
         for(let i = 0; i < dishes_list.length; i++)
         {
             let newDish = document.createElement("li");
-
+            
             let dishName = dishes_list[i].name;
             let dishPrice = dishes_list[i].price;
             let pictureLink = dishes_list[i].picture_link;
@@ -161,10 +161,11 @@ export async function displayProductsInCart (productId: number, cart: Cart) {
 
         getDishesLength('http://localhost:2137/dish/number')
         .then((data) => {
+            let dishes_length: number = data;
             let decreaseButton = document.createElement("button");
             decreaseButton.setAttribute("type", "button");
             decreaseButton.setAttribute("class", "decrease-cart-button");
-            decreaseButton.setAttribute("id", String(productId + data));
+            decreaseButton.setAttribute("id", String(productId + dishes_length));
             decreaseButton.textContent = "-";
 
             newDish.appendChild(header);
@@ -174,49 +175,37 @@ export async function displayProductsInCart (productId: number, cart: Cart) {
             const element = document.getElementById("cart-items");
 
             if(element) element.appendChild(newDish);
+
+            let increase_button = document.getElementById(String(productId));
+            let decrease_button = document.getElementById(String(productId + dishes_length));
+
+            if(increase_button)
+            {
+                increase_button.addEventListener("click", function()
+                {
+                    cart[String(productId)] += 1;
+        
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    location.reload();
+                });
+            }
+
+            if(decrease_button)
+            {
+                decrease_button.addEventListener("click", function()
+                {
+                    if(cart[String(productId)] > 0) cart[String(productId)] -= 1;
+                    console.log(cart);
+
+                    if(cart[String(productId)] === 0) delete cart[String(productId)];
+                    console.log(cart);
+        
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    location.reload();
+                });
+            }
         })
     })
-}
-
-export async function listenToCartButtonsEvent(cart: Cart)
-{
-    if(returnPageBeingDisplayed() === 'cart')
-    {
-        getDishesLength('http://localhost:2137/dish/number')
-        .then((data) => {
-            items_in_cart.forEach(element => {
-                let increase_button = document.getElementById(element[0]);
-
-                if(increase_button)
-                {
-                    increase_button.addEventListener("click", function()
-                    {
-                        cart[element[0]] += 1;
-            
-                        localStorage.setItem('cart', JSON.stringify(cart));
-                        location.reload();
-                    });
-                }
-
-                let decrease_button = document.getElementById(String(Number(element[0]) + data));
-
-                if(decrease_button)
-                {
-                    decrease_button.addEventListener("click", function()
-                    {
-                        if(cart[element[0]] > 0) cart[element[0]] -= 1;
-                        console.log(cart);
-
-                        if(cart[element[0]] === 0) delete cart[element[0]];
-                        console.log(cart);
-            
-                        localStorage.setItem('cart', JSON.stringify(cart));
-                        location.reload();
-                    });
-                }
-            })
-        })
-    }
 }
 
 export async function generateCartSummary(total_amount: HTMLElement | null)

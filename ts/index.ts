@@ -3,11 +3,9 @@ import './css/about-us_styles.css';
 import './css/cart_styles.css';
 import './css/index_styles.css';
 import './css/menu_styles.css';
-import axios from '../node_modules/axios/index';
 
 import {displayNavigationBar, renderDishesInMenu, displayProductsInCart,
-        generateCartSummary, listenToCartButtonsEvent} from './utils';
-import { Dish } from './data';
+        generateCartSummary} from './utils';
 
 interface Cart {
     [key: string]: number;
@@ -30,7 +28,6 @@ renderDishesInMenu(cart);
 items_in_cart.forEach(element => {
     displayProductsInCart(Number(element[0]), cart);
 });
-listenToCartButtonsEvent(cart);
 
 let total_amount: HTMLElement | null = document.getElementById('total-amount');
 

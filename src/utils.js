@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateCartSummary = exports.listenToCartButtonsEvent = exports.displayProductsInCart = exports.renderDishesInMenu = exports.displayNavigationBar = void 0;
+exports.generateCartSummary = exports.displayProductsInCart = exports.renderDishesInMenu = exports.displayNavigationBar = void 0;
 var index_1 = require("./index");
 var api_utils_1 = require("./api-utils");
 function returnPageBeingDisplayed() {
@@ -172,10 +172,11 @@ function displayProductsInCart(productId, cart) {
                 increaseButton.textContent = "+";
                 (0, api_utils_1.getDishesLength)('http://localhost:2137/dish/number')
                     .then(function (data) {
+                    var dishes_length = data;
                     var decreaseButton = document.createElement("button");
                     decreaseButton.setAttribute("type", "button");
                     decreaseButton.setAttribute("class", "decrease-cart-button");
-                    decreaseButton.setAttribute("id", String(productId + data));
+                    decreaseButton.setAttribute("id", String(productId + dishes_length));
                     decreaseButton.textContent = "-";
                     newDish.appendChild(header);
                     newDish.appendChild(increaseButton);
@@ -183,6 +184,27 @@ function displayProductsInCart(productId, cart) {
                     var element = document.getElementById("cart-items");
                     if (element)
                         element.appendChild(newDish);
+                    var increase_button = document.getElementById(String(productId));
+                    var decrease_button = document.getElementById(String(productId + dishes_length));
+                    if (increase_button) {
+                        increase_button.addEventListener("click", function () {
+                            cart[String(productId)] += 1;
+                            localStorage.setItem('cart', JSON.stringify(cart));
+                            location.reload();
+                        });
+                    }
+                    if (decrease_button) {
+                        decrease_button.addEventListener("click", function () {
+                            if (cart[String(productId)] > 0)
+                                cart[String(productId)] -= 1;
+                            console.log(cart);
+                            if (cart[String(productId)] === 0)
+                                delete cart[String(productId)];
+                            console.log(cart);
+                            localStorage.setItem('cart', JSON.stringify(cart));
+                            location.reload();
+                        });
+                    }
                 });
             });
             return [2 /*return*/];
@@ -190,42 +212,6 @@ function displayProductsInCart(productId, cart) {
     });
 }
 exports.displayProductsInCart = displayProductsInCart;
-function listenToCartButtonsEvent(cart) {
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            if (returnPageBeingDisplayed() === 'cart') {
-                (0, api_utils_1.getDishesLength)('http://localhost:2137/dish/number')
-                    .then(function (data) {
-                    index_1.items_in_cart.forEach(function (element) {
-                        var increase_button = document.getElementById(element[0]);
-                        if (increase_button) {
-                            increase_button.addEventListener("click", function () {
-                                cart[element[0]] += 1;
-                                localStorage.setItem('cart', JSON.stringify(cart));
-                                location.reload();
-                            });
-                        }
-                        var decrease_button = document.getElementById(String(Number(element[0]) + data));
-                        if (decrease_button) {
-                            decrease_button.addEventListener("click", function () {
-                                if (cart[element[0]] > 0)
-                                    cart[element[0]] -= 1;
-                                console.log(cart);
-                                if (cart[element[0]] === 0)
-                                    delete cart[element[0]];
-                                console.log(cart);
-                                localStorage.setItem('cart', JSON.stringify(cart));
-                                location.reload();
-                            });
-                        }
-                    });
-                });
-            }
-            return [2 /*return*/];
-        });
-    });
-}
-exports.listenToCartButtonsEvent = listenToCartButtonsEvent;
 function generateCartSummary(total_amount) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
