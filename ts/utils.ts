@@ -214,10 +214,13 @@ export async function generateCartSummary(total_amount: HTMLElement | null)
         getDishesData()
         .then((data) => {
             let dishes_list: Dish[] = data;
+            console.log(dishes_list);
             let sum = 0;
 
             items_in_cart.forEach(element => {
-                sum += element[1] * dishes_list[Number(element[0])].price;
+                const dish_to_calculate = dishes_list.find((e) => e.id === element[0]);
+
+                if(dish_to_calculate) sum += element[1] * dish_to_calculate.price; //quantity * price
             })
 
             if(sum !== 0)

@@ -217,9 +217,12 @@ function generateCartSummary(total_amount) {
                 (0, api_utils_1.getDishesData)()
                     .then(function (data) {
                     var dishes_list = data;
+                    console.log(dishes_list);
                     var sum = 0;
                     index_1.items_in_cart.forEach(function (element) {
-                        sum += element[1] * dishes_list[Number(element[0])].price;
+                        var dish_to_calculate = dishes_list.find(function (e) { return e.id === element[0]; });
+                        if (dish_to_calculate)
+                            sum += element[1] * dish_to_calculate.price; //quantity * price
                     });
                     if (sum !== 0) {
                         var summary = document.createElement("h3");
