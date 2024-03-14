@@ -21,7 +21,7 @@ exports.items_in_cart = items_in_cart;
 (0, utils_1.displayNavigationBar)("toolbar");
 (0, utils_1.renderDishesInMenu)(cart);
 items_in_cart.forEach(function (element) {
-    (0, utils_1.displayProductsInCart)(Number(element[0]), cart);
+    (0, utils_1.displayProductsInCart)(element[0], cart);
 });
 var total_amount = document.getElementById('total-amount');
 (0, utils_1.generateCartSummary)(total_amount);

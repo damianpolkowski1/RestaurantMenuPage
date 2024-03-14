@@ -1,8 +1,21 @@
-import { Dish } from "./data";
+class Dish {
+  id: string;
+  name: string;
+  price: number;
+  picture_link: string;
 
-async function getDishesData(link: string) {
+  constructor(id: string, name: string, price: number, picture_link: string)
+  {
+    this.id = id;
+    this.name = name;
+    this.price = price;
+    this.picture_link = picture_link;
+  }
+}
+
+async function getDishesData() {
     try {
-      const response = await fetch(link);
+      const response = await fetch('http://localhost:2137/dish');
       if (!response.ok) {
         throw new Error('Failed to fetch data from API');
       }
@@ -13,9 +26,9 @@ async function getDishesData(link: string) {
     }
   }
 
-  async function getDishesLength(link: string) {
+  async function getDishesLength() {
     try {
-      const response = await fetch(link);
+      const response = await fetch('http://localhost:2137/dish/number');
       if (!response.ok) {
         throw new Error('Failed to fetch data from API');
       }
@@ -45,4 +58,4 @@ async function getSpecificDish(id: string) {
     }
 }
 
-export{ getSpecificDish, getDishesData, getDishesLength };
+export{ getSpecificDish, getDishesData, getDishesLength, Dish };

@@ -26,7 +26,7 @@ displayNavigationBar("toolbar");
 renderDishesInMenu(cart);
 
 items_in_cart.forEach(element => {
-    displayProductsInCart(Number(element[0]), cart);
+    displayProductsInCart(element[0], cart);
 });
 
 let total_amount: HTMLElement | null = document.getElementById('total-amount');

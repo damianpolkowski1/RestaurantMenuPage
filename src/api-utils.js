@@ -36,15 +36,25 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getDishesLength = exports.getDishesData = exports.getSpecificDish = void 0;
-function getDishesData(link) {
+exports.Dish = exports.getDishesLength = exports.getDishesData = exports.getSpecificDish = void 0;
+var Dish = /** @class */ (function () {
+    function Dish(id, name, price, picture_link) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.picture_link = picture_link;
+    }
+    return Dish;
+}());
+exports.Dish = Dish;
+function getDishesData() {
     return __awaiter(this, void 0, void 0, function () {
         var response, data, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 3, , 4]);
-                    return [4 /*yield*/, fetch(link)];
+                    return [4 /*yield*/, fetch('http://localhost:2137/dish')];
                 case 1:
                     response = _a.sent();
                     if (!response.ok) {
@@ -63,14 +73,14 @@ function getDishesData(link) {
     });
 }
 exports.getDishesData = getDishesData;
-function getDishesLength(link) {
+function getDishesLength() {
     return __awaiter(this, void 0, void 0, function () {
         var response, data, error_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 3, , 4]);
-                    return [4 /*yield*/, fetch(link)];
+                    return [4 /*yield*/, fetch('http://localhost:2137/dish/number')];
                 case 1:
                     response = _a.sent();
                     if (!response.ok) {

@@ -1,16 +1,8 @@
 import { items_in_cart } from "./index";
-import { getDishesData, getSpecificDish, getDishesLength } from "./api-utils";
-import { Dish } from "./data";
+import { getDishesData, getSpecificDish, getDishesLength, Dish } from "./api-utils";
 
 interface Cart {
     [key: string]: number;
-}
-
-function returnPageBeingDisplayed():string {
-    let currentPath:string = window.location.pathname;
-
-    let pageName = currentPath.substring(currentPath.lastIndexOf("/") + 1, currentPath.lastIndexOf("."));
-    return pageName;
 }
 
 export function displayNavigationBar(id: string) {
@@ -62,7 +54,7 @@ export async function renderDishesInMenu(cart: Cart)
 {
     let dishes_list: Dish[] = []
 
-    getDishesData('http://localhost:2137/dish')
+    getDishesData()
     .then((data) => {
         dishes_list = data;
 
@@ -87,7 +79,7 @@ export async function renderDishesInMenu(cart: Cart)
             let button = document.createElement("button");
             button.setAttribute("type", "button");
             button.setAttribute("class", "menu_button");
-            button.setAttribute("id", String(i));
+            button.setAttribute("id", dishes_list[i].id);
             button.textContent = "Add to Cart";
 
             addToCartDiv.appendChild(image);
@@ -109,37 +101,36 @@ export async function renderDishesInMenu(cart: Cart)
 
 async function listenToMenuButtonsEvent(cart: Cart)
 {
-    getDishesLength('http://localhost:2137/dish/number')
+    getDishesData()
     .then((data) => {
-        for(let i = 0; i < data; i++)
-        {
-            let button = document.getElementById(String(i));
+        data.forEach((element) => {
+            let button = document.getElementById(element.id);
 
             if(button)
             {
                 button.addEventListener("click", function()
                 {
-                    if(cart.hasOwnProperty(i))
+                    if(cart.hasOwnProperty(element.id))
                     {
-                        cart[i] += 1;
+                        cart[element.id] += 1;
                     }
                     else
                     {
-                        cart[i] = 1;
+                        cart[element.id] = 1;
                     }
             
                     localStorage.setItem('cart', JSON.stringify(cart));
                     location.reload();
                 });
             }
-        }
+        })
     })
 }
 
-export async function displayProductsInCart (productId: number, cart: Cart) {
+export async function displayProductsInCart (productId: string, cart: Cart) {
     let dish_to_display: Dish;
 
-    getSpecificDish(String(productId))
+    getSpecificDish(productId)
     .then((data) => {
         dish_to_display = data;
     
@@ -156,16 +147,24 @@ export async function displayProductsInCart (productId: number, cart: Cart) {
         let increaseButton = document.createElement("button");
         increaseButton.setAttribute("type", "button");
         increaseButton.setAttribute("class", "increase-cart-button");
-        increaseButton.setAttribute("id", String(productId));
+        increaseButton.setAttribute("id", productId);
         increaseButton.textContent = "+";
 
-        getDishesLength('http://localhost:2137/dish/number')
+        getDishesData()
         .then((data) => {
-            let dishes_length: number = data;
+            let dishes: Dish[] = data;
+            let highestId: number = 0;
+
+            for(let i = 0; i < dishes.length; i++)
+            {
+                if(parseInt(dishes[i].id) > highestId) highestId = parseInt(dishes[i].id);
+            }
+            highestId += 1;
+
             let decreaseButton = document.createElement("button");
             decreaseButton.setAttribute("type", "button");
             decreaseButton.setAttribute("class", "decrease-cart-button");
-            decreaseButton.setAttribute("id", String(productId + dishes_length));
+            decreaseButton.setAttribute("id", String(parseInt(productId) + highestId));
             decreaseButton.textContent = "-";
 
             newDish.appendChild(header);
@@ -177,13 +176,13 @@ export async function displayProductsInCart (productId: number, cart: Cart) {
             if(element) element.appendChild(newDish);
 
             let increase_button = document.getElementById(String(productId));
-            let decrease_button = document.getElementById(String(productId + dishes_length));
+            let decrease_button = document.getElementById(String(parseInt(productId) + highestId));
 
             if(increase_button)
             {
                 increase_button.addEventListener("click", function()
                 {
-                    cart[String(productId)] += 1;
+                    cart[productId] += 1;
         
                     localStorage.setItem('cart', JSON.stringify(cart));
                     location.reload();
@@ -194,10 +193,10 @@ export async function displayProductsInCart (productId: number, cart: Cart) {
             {
                 decrease_button.addEventListener("click", function()
                 {
-                    if(cart[String(productId)] > 0) cart[String(productId)] -= 1;
+                    if(cart[productId] > 0) cart[productId] -= 1;
                     console.log(cart);
 
-                    if(cart[String(productId)] === 0) delete cart[String(productId)];
+                    if(cart[productId] === 0) delete cart[productId];
                     console.log(cart);
         
                     localStorage.setItem('cart', JSON.stringify(cart));
@@ -212,7 +211,7 @@ export async function generateCartSummary(total_amount: HTMLElement | null)
 {
     if(total_amount)
     {
-        getDishesData('http://localhost:2137/dish')
+        getDishesData()
         .then((data) => {
             let dishes_list: Dish[] = data;
             let sum = 0;

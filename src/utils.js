@@ -39,11 +39,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateCartSummary = exports.displayProductsInCart = exports.renderDishesInMenu = exports.displayNavigationBar = void 0;
 var index_1 = require("./index");
 var api_utils_1 = require("./api-utils");
-function returnPageBeingDisplayed() {
-    var currentPath = window.location.pathname;
-    var pageName = currentPath.substring(currentPath.lastIndexOf("/") + 1, currentPath.lastIndexOf("."));
-    return pageName;
-}
 function displayNavigationBar(id) {
     var ul = document.createElement("ul");
     ul.setAttribute("class", "toolbar-list");
@@ -87,7 +82,7 @@ function renderDishesInMenu(cart) {
         var dishes_list;
         return __generator(this, function (_a) {
             dishes_list = [];
-            (0, api_utils_1.getDishesData)('http://localhost:2137/dish')
+            (0, api_utils_1.getDishesData)()
                 .then(function (data) {
                 dishes_list = data;
                 for (var i = 0; i < dishes_list.length; i++) {
@@ -105,7 +100,7 @@ function renderDishesInMenu(cart) {
                     var button = document.createElement("button");
                     button.setAttribute("type", "button");
                     button.setAttribute("class", "menu_button");
-                    button.setAttribute("id", String(i));
+                    button.setAttribute("id", dishes_list[i].id);
                     button.textContent = "Add to Cart";
                     addToCartDiv.appendChild(image);
                     addToCartDiv.appendChild(header);
@@ -126,26 +121,23 @@ exports.renderDishesInMenu = renderDishesInMenu;
 function listenToMenuButtonsEvent(cart) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
-            (0, api_utils_1.getDishesLength)('http://localhost:2137/dish/number')
+            (0, api_utils_1.getDishesData)()
                 .then(function (data) {
-                var _loop_2 = function (i) {
-                    var button = document.getElementById(String(i));
+                data.forEach(function (element) {
+                    var button = document.getElementById(element.id);
                     if (button) {
                         button.addEventListener("click", function () {
-                            if (cart.hasOwnProperty(i)) {
-                                cart[i] += 1;
+                            if (cart.hasOwnProperty(element.id)) {
+                                cart[element.id] += 1;
                             }
                             else {
-                                cart[i] = 1;
+                                cart[element.id] = 1;
                             }
                             localStorage.setItem('cart', JSON.stringify(cart));
                             location.reload();
                         });
                     }
-                };
-                for (var i = 0; i < data; i++) {
-                    _loop_2(i);
-                }
+                });
             });
             return [2 /*return*/];
         });
@@ -155,7 +147,7 @@ function displayProductsInCart(productId, cart) {
     return __awaiter(this, void 0, void 0, function () {
         var dish_to_display;
         return __generator(this, function (_a) {
-            (0, api_utils_1.getSpecificDish)(String(productId))
+            (0, api_utils_1.getSpecificDish)(productId)
                 .then(function (data) {
                 dish_to_display = data;
                 var newDish = document.createElement("li");
@@ -168,15 +160,21 @@ function displayProductsInCart(productId, cart) {
                 var increaseButton = document.createElement("button");
                 increaseButton.setAttribute("type", "button");
                 increaseButton.setAttribute("class", "increase-cart-button");
-                increaseButton.setAttribute("id", String(productId));
+                increaseButton.setAttribute("id", productId);
                 increaseButton.textContent = "+";
-                (0, api_utils_1.getDishesLength)('http://localhost:2137/dish/number')
+                (0, api_utils_1.getDishesData)()
                     .then(function (data) {
-                    var dishes_length = data;
+                    var dishes = data;
+                    var highestId = 0;
+                    for (var i = 0; i < dishes.length; i++) {
+                        if (parseInt(dishes[i].id) > highestId)
+                            highestId = parseInt(dishes[i].id);
+                    }
+                    highestId += 1;
                     var decreaseButton = document.createElement("button");
                     decreaseButton.setAttribute("type", "button");
                     decreaseButton.setAttribute("class", "decrease-cart-button");
-                    decreaseButton.setAttribute("id", String(productId + dishes_length));
+                    decreaseButton.setAttribute("id", String(parseInt(productId) + highestId));
                     decreaseButton.textContent = "-";
                     newDish.appendChild(header);
                     newDish.appendChild(increaseButton);
@@ -185,21 +183,21 @@ function displayProductsInCart(productId, cart) {
                     if (element)
                         element.appendChild(newDish);
                     var increase_button = document.getElementById(String(productId));
-                    var decrease_button = document.getElementById(String(productId + dishes_length));
+                    var decrease_button = document.getElementById(String(parseInt(productId) + highestId));
                     if (increase_button) {
                         increase_button.addEventListener("click", function () {
-                            cart[String(productId)] += 1;
+                            cart[productId] += 1;
                             localStorage.setItem('cart', JSON.stringify(cart));
                             location.reload();
                         });
                     }
                     if (decrease_button) {
                         decrease_button.addEventListener("click", function () {
-                            if (cart[String(productId)] > 0)
-                                cart[String(productId)] -= 1;
+                            if (cart[productId] > 0)
+                                cart[productId] -= 1;
                             console.log(cart);
-                            if (cart[String(productId)] === 0)
-                                delete cart[String(productId)];
+                            if (cart[productId] === 0)
+                                delete cart[productId];
                             console.log(cart);
                             localStorage.setItem('cart', JSON.stringify(cart));
                             location.reload();
@@ -216,7 +214,7 @@ function generateCartSummary(total_amount) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             if (total_amount) {
-                (0, api_utils_1.getDishesData)('http://localhost:2137/dish')
+                (0, api_utils_1.getDishesData)()
                     .then(function (data) {
                     var dishes_list = data;
                     var sum = 0;
