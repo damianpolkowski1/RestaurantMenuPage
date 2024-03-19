@@ -39,13 +39,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateCartSummary = exports.displayProductsInCart = exports.renderDishesInMenu = exports.displayNavigationBar = void 0;
 var index_1 = require("./index");
 var api_utils_1 = require("./api-utils");
+var uuid_1 = require("uuid");
 function displayNavigationBar(id) {
     var ul = document.createElement("ul");
     ul.setAttribute("class", "toolbar-list");
-    var navbar_content = [{ link: "./index.html", name: "Start" },
+    var navbar_content = [
+        { link: "./index.html", name: "Start" },
         { link: "./menu.html", name: "Menu" },
         { link: "./about-us.html", name: "About Us" },
-        { link: "./cart.html", name: "Cart" }];
+        { link: "./cart.html", name: "Cart" },
+    ];
     var _loop_1 = function (i) {
         var li = document.createElement("li");
         var a = document.createElement("a");
@@ -82,8 +85,7 @@ function renderDishesInMenu(cart) {
         var dishes_list;
         return __generator(this, function (_a) {
             dishes_list = [];
-            (0, api_utils_1.getDishesData)()
-                .then(function (data) {
+            (0, api_utils_1.getDishesData)().then(function (data) {
                 dishes_list = data;
                 for (var i = 0; i < dishes_list.length; i++) {
                     var newDish = document.createElement("li");
@@ -121,8 +123,7 @@ exports.renderDishesInMenu = renderDishesInMenu;
 function listenToMenuButtonsEvent(cart) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
-            (0, api_utils_1.getDishesData)()
-                .then(function (data) {
+            (0, api_utils_1.getDishesData)().then(function (data) {
                 data.forEach(function (element) {
                     var button = document.getElementById(element.id);
                     if (button) {
@@ -133,7 +134,7 @@ function listenToMenuButtonsEvent(cart) {
                             else {
                                 cart[element.id] = 1;
                             }
-                            localStorage.setItem('cart', JSON.stringify(cart));
+                            localStorage.setItem("cart", JSON.stringify(cart));
                             location.reload();
                         });
                     }
@@ -147,8 +148,7 @@ function displayProductsInCart(productId, cart) {
     return __awaiter(this, void 0, void 0, function () {
         var dish_to_display;
         return __generator(this, function (_a) {
-            (0, api_utils_1.getSpecificDish)(productId)
-                .then(function (data) {
+            (0, api_utils_1.getSpecificDish)(productId).then(function (data) {
                 dish_to_display = data;
                 var newDish = document.createElement("li");
                 var dishName = dish_to_display.name;
@@ -157,24 +157,18 @@ function displayProductsInCart(productId, cart) {
                 var header = document.createElement("h4");
                 var header_text = document.createTextNode("".concat(dishName, ": ").concat(quantity, " --- ").concat(dishPrice * quantity, " RSD"));
                 header.appendChild(header_text);
+                var increaseId = (0, uuid_1.v4)();
+                var decreaseId = (0, uuid_1.v4)();
                 var increaseButton = document.createElement("button");
                 increaseButton.setAttribute("type", "button");
                 increaseButton.setAttribute("class", "increase-cart-button");
-                increaseButton.setAttribute("id", productId);
+                increaseButton.setAttribute("id", increaseId);
                 increaseButton.textContent = "+";
-                (0, api_utils_1.getDishesData)()
-                    .then(function (data) {
-                    var dishes = data;
-                    var highestId = 0;
-                    for (var i = 0; i < dishes.length; i++) {
-                        if (parseInt(dishes[i].id) > highestId)
-                            highestId = parseInt(dishes[i].id);
-                    }
-                    highestId += 1;
+                (0, api_utils_1.getDishesData)().then(function (data) {
                     var decreaseButton = document.createElement("button");
                     decreaseButton.setAttribute("type", "button");
                     decreaseButton.setAttribute("class", "decrease-cart-button");
-                    decreaseButton.setAttribute("id", String(parseInt(productId) + highestId));
+                    decreaseButton.setAttribute("id", decreaseId);
                     decreaseButton.textContent = "-";
                     newDish.appendChild(header);
                     newDish.appendChild(increaseButton);
@@ -182,12 +176,12 @@ function displayProductsInCart(productId, cart) {
                     var element = document.getElementById("cart-items");
                     if (element)
                         element.appendChild(newDish);
-                    var increase_button = document.getElementById(String(productId));
-                    var decrease_button = document.getElementById(String(parseInt(productId) + highestId));
+                    var increase_button = document.getElementById(increaseId);
+                    var decrease_button = document.getElementById(decreaseId);
                     if (increase_button) {
                         increase_button.addEventListener("click", function () {
                             cart[productId] += 1;
-                            localStorage.setItem('cart', JSON.stringify(cart));
+                            localStorage.setItem("cart", JSON.stringify(cart));
                             location.reload();
                         });
                     }
@@ -199,7 +193,7 @@ function displayProductsInCart(productId, cart) {
                             if (cart[productId] === 0)
                                 delete cart[productId];
                             console.log(cart);
-                            localStorage.setItem('cart', JSON.stringify(cart));
+                            localStorage.setItem("cart", JSON.stringify(cart));
                             location.reload();
                         });
                     }
@@ -214,8 +208,7 @@ function generateCartSummary(total_amount) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             if (total_amount) {
-                (0, api_utils_1.getDishesData)()
-                    .then(function (data) {
+                (0, api_utils_1.getDishesData)().then(function (data) {
                     var dishes_list = data;
                     console.log(dishes_list);
                     var sum = 0;
@@ -229,16 +222,16 @@ function generateCartSummary(total_amount) {
                         var summary_content = document.createTextNode("Total: ".concat(sum, " RSD"));
                         summary.appendChild(summary_content);
                         var payment_button = document.createElement("button");
-                        var button_text = document.createTextNode('Proceed to Payment');
+                        var button_text = document.createTextNode("Proceed to Payment");
                         payment_button.appendChild(button_text);
                         total_amount.appendChild(summary);
                         total_amount.appendChild(payment_button);
                     }
                     else {
                         var summary = document.createElement("h2");
-                        var summary_content = document.createTextNode('Your cart is empty!');
-                        summary.style.paddingBottom = '30vh';
-                        summary.style.width = '100%';
+                        var summary_content = document.createTextNode("Your cart is empty!");
+                        summary.style.paddingBottom = "30vh";
+                        summary.style.width = "100%";
                         summary.appendChild(summary_content);
                         total_amount.appendChild(summary);
                     }
