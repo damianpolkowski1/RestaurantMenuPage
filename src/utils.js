@@ -36,10 +36,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateCartSummary = exports.displayProductsInCart = exports.renderDishesInMenu = exports.displayNavigationBar = void 0;
+exports.closePopup = exports.togglePopup = exports.renderModifyPage = exports.generateCartSummary = exports.displayProductsInCart = exports.renderDishesInMenu = exports.displayNavigationBar = void 0;
 var index_1 = require("./index");
 var api_utils_1 = require("./api-utils");
 var uuid_1 = require("uuid");
+var popup_utils_1 = require("./popup-utils");
 function displayNavigationBar(id) {
     var ul = document.createElement("ul");
     ul.setAttribute("class", "toolbar-list");
@@ -48,6 +49,7 @@ function displayNavigationBar(id) {
         { link: "./menu.html", name: "Menu" },
         { link: "./about-us.html", name: "About Us" },
         { link: "./cart.html", name: "Cart" },
+        { link: "./modify.html", name: "Modify" },
     ];
     var _loop_1 = function (i) {
         var li = document.createElement("li");
@@ -242,3 +244,129 @@ function generateCartSummary(total_amount) {
     });
 }
 exports.generateCartSummary = generateCartSummary;
+function renderModifyPage() {
+    return __awaiter(this, void 0, void 0, function () {
+        var dishes_list, button_ids, add_button, add_delete_div;
+        return __generator(this, function (_a) {
+            dishes_list = [];
+            button_ids = [];
+            add_button = document.createElement("button");
+            add_button.setAttribute("type", "button");
+            add_button.setAttribute("class", "control-button");
+            add_button.setAttribute("id", "add-entity-button");
+            add_button.textContent = "Add Entity";
+            add_delete_div = document.getElementById("add-delete");
+            if (add_delete_div)
+                add_delete_div.appendChild(add_button);
+            (0, api_utils_1.getDishesData)().then(function (data) {
+                dishes_list = data;
+                for (var i = 0; i < dishes_list.length; i++) {
+                    button_ids.push({
+                        buttonID: String((0, uuid_1.v4)()),
+                        entityID: dishes_list[i].id,
+                    });
+                    var newDish = document.createElement("li");
+                    var dishName = dishes_list[i].name;
+                    var dishId = dishes_list[i].id;
+                    var ModifyDiv = document.createElement("div");
+                    ModifyDiv.classList.add("modify-div");
+                    var header = document.createElement("h4");
+                    var header_text = document.createTextNode("ID: ".concat(dishId, ", Name: ").concat(dishName));
+                    header.appendChild(header_text);
+                    var modifyButton = document.createElement("button");
+                    modifyButton.setAttribute("type", "button");
+                    modifyButton.setAttribute("class", "modify-button");
+                    modifyButton.setAttribute("id", button_ids[i].buttonID);
+                    modifyButton.textContent = "Modify";
+                    var deleteButton = document.createElement("button");
+                    deleteButton.setAttribute("type", "button");
+                    deleteButton.setAttribute("class", "delete-button");
+                    deleteButton.setAttribute("id", "delete-" + button_ids[i].buttonID);
+                    deleteButton.textContent = "Delete";
+                    ModifyDiv.appendChild(modifyButton);
+                    ModifyDiv.appendChild(deleteButton);
+                    ModifyDiv.appendChild(header);
+                    newDish.appendChild(ModifyDiv);
+                    var element = document.getElementById("modify-list");
+                    if (element) {
+                        element.appendChild(newDish);
+                    }
+                }
+                listenToModifyButtons(button_ids);
+                listenToAddDishButton();
+                listenToDeleteDishButtons(button_ids);
+            });
+            return [2 /*return*/];
+        });
+    });
+}
+exports.renderModifyPage = renderModifyPage;
+function listenToModifyButtons(button_ids) {
+    var _loop_2 = function (i) {
+        var button = document.getElementById(button_ids[i].buttonID);
+        if (button) {
+            button.addEventListener("click", function () {
+                return __awaiter(this, void 0, void 0, function () {
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0: return [4 /*yield*/, (0, popup_utils_1.createUpdatePopUpWindow)(button_ids[i].entityID)];
+                            case 1:
+                                _a.sent();
+                                togglePopup("modify-popupOverlay");
+                                return [2 /*return*/];
+                        }
+                    });
+                });
+            });
+        }
+    };
+    for (var i = 0; i < button_ids.length; i++) {
+        _loop_2(i);
+    }
+}
+function listenToAddDishButton() {
+    var button = document.getElementById("add-entity-button");
+    if (button) {
+        button.addEventListener("click", function () {
+            (0, popup_utils_1.createAddingPopUpWindow)();
+            togglePopup("add-PopupOverlay");
+        });
+    }
+}
+function listenToDeleteDishButtons(button_ids) {
+    var _loop_3 = function (i) {
+        var button = document.getElementById("delete-" + button_ids[i].buttonID);
+        if (button) {
+            button.addEventListener("click", function () {
+                return __awaiter(this, void 0, void 0, function () {
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0: return [4 /*yield*/, (0, popup_utils_1.createDeletingPopUpWindow)(button_ids[i].entityID)];
+                            case 1:
+                                _a.sent();
+                                togglePopup("delete-PopupOverlay");
+                                return [2 /*return*/];
+                        }
+                    });
+                });
+            });
+        }
+    };
+    for (var i = 0; i < button_ids.length; i++) {
+        _loop_3(i);
+    }
+}
+function togglePopup(FormId) {
+    var overlay = document.getElementById(FormId);
+    if (overlay)
+        overlay.classList.toggle("show");
+}
+exports.togglePopup = togglePopup;
+function closePopup(FormId) {
+    var overlay = document.getElementById(FormId);
+    if (overlay) {
+        overlay.classList.toggle("hide");
+        overlay.remove();
+    }
+}
+exports.closePopup = closePopup;

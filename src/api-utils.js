@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Dish = exports.getDishesLength = exports.getDishesData = exports.getSpecificDish = void 0;
+exports.Dish = exports.deleteDish = exports.createNewDish = exports.updateSpecificDish = exports.getDishesLength = exports.getDishesData = exports.getSpecificDish = void 0;
 var Dish = /** @class */ (function () {
     function Dish(id, name, price, picture_link) {
         this.id = id;
@@ -47,6 +47,7 @@ var Dish = /** @class */ (function () {
     return Dish;
 }());
 exports.Dish = Dish;
+var dish_api_link = "http://localhost:2137/dish/";
 function getDishesData() {
     return __awaiter(this, void 0, void 0, function () {
         var response, data, error_1;
@@ -54,11 +55,11 @@ function getDishesData() {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 3, , 4]);
-                    return [4 /*yield*/, fetch('http://localhost:2137/dish')];
+                    return [4 /*yield*/, fetch(dish_api_link)];
                 case 1:
                     response = _a.sent();
                     if (!response.ok) {
-                        throw new Error('Failed to fetch data from API');
+                        throw new Error("Failed to fetch data from API");
                     }
                     return [4 /*yield*/, response.json()];
                 case 2:
@@ -80,11 +81,11 @@ function getDishesLength() {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 3, , 4]);
-                    return [4 /*yield*/, fetch('http://localhost:2137/dish/number')];
+                    return [4 /*yield*/, fetch(dish_api_link)];
                 case 1:
                     response = _a.sent();
                     if (!response.ok) {
-                        throw new Error('Failed to fetch data from API');
+                        throw new Error("Failed to fetch data from API");
                     }
                     return [4 /*yield*/, response.json()];
                 case 2:
@@ -106,11 +107,11 @@ function getSpecificDish(id) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 3, , 4]);
-                    return [4 /*yield*/, fetch('http://localhost:2137/dish/' + id)];
+                    return [4 /*yield*/, fetch(dish_api_link + id)];
                 case 1:
                     response = _a.sent();
                     if (!response.ok) {
-                        throw new Error('Bajo jajo, server not working');
+                        throw new Error("Bajo jajo, server not working");
                     }
                     return [4 /*yield*/, response.json()];
                 case 2:
@@ -118,7 +119,7 @@ function getSpecificDish(id) {
                     return [2 /*return*/, data];
                 case 3:
                     error_3 = _a.sent();
-                    console.error('Error happened: ', error_3);
+                    console.error("Error happened: ", error_3);
                     return [3 /*break*/, 4];
                 case 4: return [2 /*return*/];
             }
@@ -126,3 +127,115 @@ function getSpecificDish(id) {
     });
 }
 exports.getSpecificDish = getSpecificDish;
+function updateSpecificDish(id, body) {
+    return __awaiter(this, void 0, void 0, function () {
+        var data, error_4;
+        var _a;
+        var _this = this;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _b.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, fetch(dish_api_link + id, {
+                            method: "PATCH",
+                            body: JSON.stringify(body),
+                            headers: (_a = {},
+                                _a["Content-Type"] = "application/json",
+                                _a),
+                        }).then(function (response) { return __awaiter(_this, void 0, void 0, function () {
+                            var data;
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0: return [4 /*yield*/, response.json()];
+                                    case 1:
+                                        data = _a.sent();
+                                        return [2 /*return*/, data];
+                                }
+                            });
+                        }); }, function (err) { return console.error(err); })];
+                case 1:
+                    data = _b.sent();
+                    return [2 /*return*/, data];
+                case 2:
+                    error_4 = _b.sent();
+                    console.error("Error happened: ", error_4);
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.updateSpecificDish = updateSpecificDish;
+function createNewDish(body) {
+    return __awaiter(this, void 0, void 0, function () {
+        var data, error_5;
+        var _a;
+        var _this = this;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _b.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, fetch(dish_api_link, {
+                            method: "POST",
+                            body: JSON.stringify(body),
+                            headers: (_a = {},
+                                _a["Content-Type"] = "application/json",
+                                _a),
+                        }).then(function (response) { return __awaiter(_this, void 0, void 0, function () {
+                            var data;
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0: return [4 /*yield*/, response.json()];
+                                    case 1:
+                                        data = _a.sent();
+                                        return [2 /*return*/, data];
+                                }
+                            });
+                        }); }, function (err) { return console.error(err); })];
+                case 1:
+                    data = _b.sent();
+                    return [2 /*return*/, data];
+                case 2:
+                    error_5 = _b.sent();
+                    console.error("Error happened: ", error_5);
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.createNewDish = createNewDish;
+function deleteDish(id) {
+    return __awaiter(this, void 0, void 0, function () {
+        var data, error_6;
+        var _this = this;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, fetch(dish_api_link + id, {
+                            method: "DELETE",
+                        }).then(function (response) { return __awaiter(_this, void 0, void 0, function () {
+                            var data;
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0: return [4 /*yield*/, response.json()];
+                                    case 1:
+                                        data = _a.sent();
+                                        return [2 /*return*/, data];
+                                }
+                            });
+                        }); }, function (err) { return console.error(err); })];
+                case 1:
+                    data = _a.sent();
+                    return [2 /*return*/, data];
+                case 2:
+                    error_6 = _a.sent();
+                    console.error("Error happened: ", error_6);
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.deleteDish = deleteDish;

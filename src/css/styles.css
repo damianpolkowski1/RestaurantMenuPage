@@ -2,6 +2,10 @@ body {
     margin: 0;
 }
 
+button {
+    cursor: pointer;
+}
+
 .toolbar {
     position: sticky;
     top: 0;

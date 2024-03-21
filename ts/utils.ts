@@ -1,6 +1,11 @@
 import { items_in_cart } from "./index";
 import { getDishesData, getSpecificDish, Dish } from "./api-utils";
 import { v4 as uuidv4 } from "uuid";
+import {
+  createUpdatePopUpWindow,
+  createAddingPopUpWindow,
+  createDeletingPopUpWindow,
+} from "./popup-utils";
 
 interface Cart {
   [key: string]: number;
@@ -15,6 +20,7 @@ export function displayNavigationBar(id: string) {
     { link: "./menu.html", name: "Menu" },
     { link: "./about-us.html", name: "About Us" },
     { link: "./cart.html", name: "Cart" },
+    { link: "./modify.html", name: "Modify" },
   ];
 
   for (let i = 0; i < navbar_content.length; i++) {
@@ -225,5 +231,127 @@ export async function generateCartSummary(total_amount: HTMLElement | null) {
         total_amount.appendChild(summary);
       }
     });
+  }
+}
+
+export async function renderModifyPage() {
+  let dishes_list: Dish[] = [];
+  let button_ids: { buttonID: string; entityID: string }[] = []; //Holds button IDs associated with specific entity IDs in the DB
+
+  let add_button = document.createElement("button");
+  add_button.setAttribute("type", "button");
+  add_button.setAttribute("class", "control-button");
+  add_button.setAttribute("id", "add-entity-button");
+  add_button.textContent = "Add Entity";
+
+  const add_delete_div = document.getElementById("add-delete");
+
+  if (add_delete_div) add_delete_div.appendChild(add_button);
+
+  getDishesData().then((data) => {
+    dishes_list = data;
+
+    for (let i = 0; i < dishes_list.length; i++) {
+      button_ids.push({
+        buttonID: String(uuidv4()),
+        entityID: dishes_list[i].id,
+      });
+
+      let newDish = document.createElement("li");
+
+      let dishName = dishes_list[i].name;
+      let dishId = dishes_list[i].id;
+
+      let ModifyDiv = document.createElement("div");
+      ModifyDiv.classList.add("modify-div");
+
+      let header = document.createElement("h4");
+      let header_text = document.createTextNode(
+        `ID: ${dishId}, Name: ${dishName}`
+      );
+      header.appendChild(header_text);
+
+      let modifyButton = document.createElement("button");
+      modifyButton.setAttribute("type", "button");
+      modifyButton.setAttribute("class", "modify-button");
+      modifyButton.setAttribute("id", button_ids[i].buttonID);
+      modifyButton.textContent = "Modify";
+
+      let deleteButton = document.createElement("button");
+      deleteButton.setAttribute("type", "button");
+      deleteButton.setAttribute("class", "delete-button");
+      deleteButton.setAttribute("id", "delete-" + button_ids[i].buttonID);
+      deleteButton.textContent = "Delete";
+
+      ModifyDiv.appendChild(modifyButton);
+      ModifyDiv.appendChild(deleteButton);
+      ModifyDiv.appendChild(header);
+
+      newDish.appendChild(ModifyDiv);
+
+      const element = document.getElementById("modify-list");
+
+      if (element) {
+        element.appendChild(newDish);
+      }
+    }
+
+    listenToModifyButtons(button_ids);
+    listenToAddDishButton();
+    listenToDeleteDishButtons(button_ids);
+  });
+}
+
+function listenToModifyButtons(
+  button_ids: { buttonID: string; entityID: string }[]
+) {
+  for (let i = 0; i < button_ids.length; i++) {
+    const button = document.getElementById(button_ids[i].buttonID);
+
+    if (button) {
+      button.addEventListener("click", async function () {
+        await createUpdatePopUpWindow(button_ids[i].entityID);
+        togglePopup("modify-popupOverlay");
+      });
+    }
+  }
+}
+
+function listenToAddDishButton() {
+  const button = document.getElementById("add-entity-button");
+
+  if (button) {
+    button.addEventListener("click", function () {
+      createAddingPopUpWindow();
+      togglePopup("add-PopupOverlay");
+    });
+  }
+}
+
+function listenToDeleteDishButtons(
+  button_ids: { buttonID: string; entityID: string }[]
+) {
+  for (let i = 0; i < button_ids.length; i++) {
+    const button = document.getElementById("delete-" + button_ids[i].buttonID);
+
+    if (button) {
+      button.addEventListener("click", async function () {
+        await createDeletingPopUpWindow(button_ids[i].entityID);
+        togglePopup("delete-PopupOverlay");
+      });
+    }
+  }
+}
+
+export function togglePopup(FormId: string) {
+  const overlay = document.getElementById(FormId);
+  if (overlay) overlay.classList.toggle("show");
+}
+
+export function closePopup(FormId: string) {
+  const overlay = document.getElementById(FormId);
+  if (overlay) {
+    overlay.classList.toggle("hide");
+    overlay.remove();
   }
 }
