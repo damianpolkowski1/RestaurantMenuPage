@@ -12,10 +12,10 @@ interface Cart {
 }
 
 export function displayNavigationBar(id: string) {
-  let ul = document.createElement("ul");
+  const ul = document.createElement("ul");
   ul.setAttribute("class", "toolbar-list");
 
-  let navbar_content = [
+  const navbar_content = [
     { link: "./index.html", name: "Start" },
     { link: "./menu.html", name: "Menu" },
     { link: "./about-us.html", name: "About Us" },
@@ -24,8 +24,8 @@ export function displayNavigationBar(id: string) {
   ];
 
   for (let i = 0; i < navbar_content.length; i++) {
-    let li = document.createElement("li");
-    let a = document.createElement("a");
+    const li = document.createElement("li");
+    const a = document.createElement("a");
     a.setAttribute("href", navbar_content[i].link);
 
     let a_text;
@@ -59,31 +59,29 @@ export function displayNavigationBar(id: string) {
 }
 
 export async function renderDishesInMenu(cart: Cart) {
-  let dishes_list: Dish[] = [];
-
   getDishesData().then((data) => {
-    dishes_list = data;
+    const dishes_list = data;
 
     for (let i = 0; i < dishes_list.length; i++) {
-      let newDish = document.createElement("li");
+      const newDish = document.createElement("li");
 
-      let dishName = dishes_list[i].name;
-      let dishPrice = dishes_list[i].price;
-      let pictureLink = dishes_list[i].picture_link;
+      const dishName = dishes_list[i].name;
+      const dishPrice = dishes_list[i].price;
+      const pictureLink = dishes_list[i].picture_link;
 
-      let image = document.createElement("img");
+      const image = document.createElement("img");
       image.src = pictureLink;
 
-      let addToCartDiv = document.createElement("div");
+      const addToCartDiv = document.createElement("div");
       addToCartDiv.classList.add("add-to-cart-button");
 
-      let header = document.createElement("h4");
-      let header_text = document.createTextNode(
+      const header = document.createElement("h4");
+      const header_text = document.createTextNode(
         `${dishName} (${dishPrice} RSD)`
       );
       header.appendChild(header_text);
 
-      let button = document.createElement("button");
+      const button = document.createElement("button");
       button.setAttribute("type", "button");
       button.setAttribute("class", "menu_button");
       button.setAttribute("id", dishes_list[i].id);
@@ -109,7 +107,7 @@ export async function renderDishesInMenu(cart: Cart) {
 async function listenToMenuButtonsEvent(cart: Cart) {
   getDishesData().then((data) => {
     data.forEach((element) => {
-      let button = document.getElementById(element.id);
+      const button = document.getElementById(element.id);
 
       if (button) {
         button.addEventListener("click", function () {
@@ -128,19 +126,17 @@ async function listenToMenuButtonsEvent(cart: Cart) {
 }
 
 export async function displayProductsInCart(productId: string, cart: Cart) {
-  let dish_to_display: Dish;
-
   getSpecificDish(productId).then((data) => {
-    dish_to_display = data;
+    const dish_to_display: Dish = data;
 
-    let newDish = document.createElement("li");
+    const newDish = document.createElement("li");
 
-    let dishName = dish_to_display.name;
-    let dishPrice = dish_to_display.price;
-    let quantity = cart[productId];
+    const dishName = dish_to_display.name;
+    const dishPrice = dish_to_display.price;
+    const quantity = cart[productId];
 
-    let header = document.createElement("h4");
-    let header_text = document.createTextNode(
+    const header = document.createElement("h4");
+    const header_text = document.createTextNode(
       `${dishName}: ${quantity} --- ${dishPrice * quantity} RSD`
     );
     header.appendChild(header_text);
@@ -148,60 +144,57 @@ export async function displayProductsInCart(productId: string, cart: Cart) {
     const increaseId = uuidv4();
     const decreaseId = uuidv4();
 
-    let increaseButton = document.createElement("button");
+    const increaseButton = document.createElement("button");
     increaseButton.setAttribute("type", "button");
     increaseButton.setAttribute("class", "increase-cart-button");
     increaseButton.setAttribute("id", increaseId);
     increaseButton.textContent = "+";
 
-    getDishesData().then((data) => {
-      let decreaseButton = document.createElement("button");
-      decreaseButton.setAttribute("type", "button");
-      decreaseButton.setAttribute("class", "decrease-cart-button");
-      decreaseButton.setAttribute("id", decreaseId);
-      decreaseButton.textContent = "-";
+    const decreaseButton = document.createElement("button");
+    decreaseButton.setAttribute("type", "button");
+    decreaseButton.setAttribute("class", "decrease-cart-button");
+    decreaseButton.setAttribute("id", decreaseId);
+    decreaseButton.textContent = "-";
 
-      newDish.appendChild(header);
-      newDish.appendChild(increaseButton);
-      newDish.appendChild(decreaseButton);
+    newDish.appendChild(header);
+    newDish.appendChild(increaseButton);
+    newDish.appendChild(decreaseButton);
 
-      const element = document.getElementById("cart-items");
+    const element = document.getElementById("cart-items");
 
-      if (element) element.appendChild(newDish);
+    if (element) element.appendChild(newDish);
 
-      let increase_button = document.getElementById(increaseId);
-      let decrease_button = document.getElementById(decreaseId);
+    const increase_button = document.getElementById(increaseId);
+    const decrease_button = document.getElementById(decreaseId);
 
-      if (increase_button) {
-        increase_button.addEventListener("click", function () {
-          cart[productId] += 1;
+    if (increase_button) {
+      increase_button.addEventListener("click", function () {
+        cart[productId] += 1;
 
-          localStorage.setItem("cart", JSON.stringify(cart));
-          location.reload();
-        });
-      }
+        localStorage.setItem("cart", JSON.stringify(cart));
+        location.reload();
+      });
+    }
 
-      if (decrease_button) {
-        decrease_button.addEventListener("click", function () {
-          if (cart[productId] > 0) cart[productId] -= 1;
-          console.log(cart);
+    if (decrease_button) {
+      decrease_button.addEventListener("click", function () {
+        if (cart[productId] > 0) cart[productId] -= 1;
+        console.log(cart);
 
-          if (cart[productId] === 0) delete cart[productId];
-          console.log(cart);
+        if (cart[productId] === 0) delete cart[productId];
+        console.log(cart);
 
-          localStorage.setItem("cart", JSON.stringify(cart));
-          location.reload();
-        });
-      }
-    });
+        localStorage.setItem("cart", JSON.stringify(cart));
+        location.reload();
+      });
+    }
   });
 }
 
 export async function generateCartSummary(total_amount: HTMLElement | null) {
   if (total_amount) {
     getDishesData().then((data) => {
-      let dishes_list: Dish[] = data;
-      console.log(dishes_list);
+      const dishes_list: Dish[] = data;
       let sum = 0;
 
       items_in_cart.forEach((element) => {
@@ -210,35 +203,38 @@ export async function generateCartSummary(total_amount: HTMLElement | null) {
         if (dish_to_calculate) sum += element[1] * dish_to_calculate.price; //quantity * price
       });
 
-      if (sum !== 0) {
-        let summary = document.createElement("h3");
-        let summary_content = document.createTextNode(`Total: ${sum} RSD`);
-        summary.appendChild(summary_content);
-
-        let payment_button = document.createElement("button");
-        let button_text = document.createTextNode("Proceed to Payment");
-        payment_button.appendChild(button_text);
-
-        total_amount.appendChild(summary);
-        total_amount.appendChild(payment_button);
-      } else {
-        let summary = document.createElement("h2");
-        let summary_content = document.createTextNode("Your cart is empty!");
-        summary.style.paddingBottom = "30vh";
-        summary.style.width = "100%";
-        summary.appendChild(summary_content);
-
-        total_amount.appendChild(summary);
-      }
+      displayCartSummary(sum, total_amount);
     });
   }
 }
 
-export async function renderModifyPage() {
-  let dishes_list: Dish[] = [];
-  let button_ids: { buttonID: string; entityID: string }[] = []; //Holds button IDs associated with specific entity IDs in the DB
+function displayCartSummary(sum: number, total_amount: HTMLElement) {
+  if (sum !== 0) {
+    const summary = document.createElement("h3");
+    const summary_content = document.createTextNode(`Total: ${sum} RSD`);
+    summary.appendChild(summary_content);
 
-  let add_button = document.createElement("button");
+    const payment_button = document.createElement("button");
+    const button_text = document.createTextNode("Proceed to Payment");
+    payment_button.appendChild(button_text);
+
+    total_amount.appendChild(summary);
+    total_amount.appendChild(payment_button);
+  } else {
+    const summary = document.createElement("h2");
+    const summary_content = document.createTextNode("Your cart is empty!");
+    summary.style.paddingBottom = "30vh";
+    summary.style.width = "100%";
+    summary.appendChild(summary_content);
+
+    total_amount.appendChild(summary);
+  }
+}
+
+export async function renderModifyPage() {
+  const button_ids: { buttonID: string; entityID: string }[] = []; //Holds button IDs associated with specific entity IDs in the DB
+
+  const add_button = document.createElement("button");
   add_button.setAttribute("type", "button");
   add_button.setAttribute("class", "control-button");
   add_button.setAttribute("id", "add-entity-button");
@@ -249,7 +245,7 @@ export async function renderModifyPage() {
   if (add_delete_div) add_delete_div.appendChild(add_button);
 
   getDishesData().then((data) => {
-    dishes_list = data;
+    const dishes_list = data;
 
     for (let i = 0; i < dishes_list.length; i++) {
       button_ids.push({
@@ -257,27 +253,27 @@ export async function renderModifyPage() {
         entityID: dishes_list[i].id,
       });
 
-      let newDish = document.createElement("li");
+      const newDish = document.createElement("li");
 
-      let dishName = dishes_list[i].name;
-      let dishId = dishes_list[i].id;
+      const dishName = dishes_list[i].name;
+      const dishId = dishes_list[i].id;
 
-      let ModifyDiv = document.createElement("div");
+      const ModifyDiv = document.createElement("div");
       ModifyDiv.classList.add("modify-div");
 
-      let header = document.createElement("h4");
-      let header_text = document.createTextNode(
+      const header = document.createElement("h4");
+      const header_text = document.createTextNode(
         `ID: ${dishId}, Name: ${dishName}`
       );
       header.appendChild(header_text);
 
-      let modifyButton = document.createElement("button");
+      const modifyButton = document.createElement("button");
       modifyButton.setAttribute("type", "button");
       modifyButton.setAttribute("class", "modify-button");
       modifyButton.setAttribute("id", button_ids[i].buttonID);
       modifyButton.textContent = "Modify";
 
-      let deleteButton = document.createElement("button");
+      const deleteButton = document.createElement("button");
       deleteButton.setAttribute("type", "button");
       deleteButton.setAttribute("class", "delete-button");
       deleteButton.setAttribute("id", "delete-" + button_ids[i].buttonID);
@@ -308,24 +304,24 @@ function listenToModifyButtons(
   for (let i = 0; i < button_ids.length; i++) {
     const button = document.getElementById(button_ids[i].buttonID);
 
-    if (button) {
-      button.addEventListener("click", async function () {
-        await createUpdatePopUpWindow(button_ids[i].entityID);
-        togglePopup("modify-popupOverlay");
-      });
-    }
+    if (!button) return;
+
+    button.addEventListener("click", async function () {
+      await createUpdatePopUpWindow(button_ids[i].entityID);
+      togglePopup("modify-popupOverlay");
+    });
   }
 }
 
 function listenToAddDishButton() {
   const button = document.getElementById("add-entity-button");
 
-  if (button) {
-    button.addEventListener("click", function () {
-      createAddingPopUpWindow();
-      togglePopup("add-PopupOverlay");
-    });
-  }
+  if (!button) return;
+
+  button.addEventListener("click", function () {
+    createAddingPopUpWindow();
+    togglePopup("add-PopupOverlay");
+  });
 }
 
 function listenToDeleteDishButtons(
@@ -334,12 +330,12 @@ function listenToDeleteDishButtons(
   for (let i = 0; i < button_ids.length; i++) {
     const button = document.getElementById("delete-" + button_ids[i].buttonID);
 
-    if (button) {
-      button.addEventListener("click", async function () {
-        await createDeletingPopUpWindow(button_ids[i].entityID);
-        togglePopup("delete-PopupOverlay");
-      });
-    }
+    if (!button) return;
+
+    button.addEventListener("click", async function () {
+      await createDeletingPopUpWindow(button_ids[i].entityID);
+      togglePopup("delete-PopupOverlay");
+    });
   }
 }
 

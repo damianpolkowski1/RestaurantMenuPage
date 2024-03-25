@@ -219,28 +219,17 @@ function createAddingPopUpWindow() {
 exports.createAddingPopUpWindow = createAddingPopUpWindow;
 function onAddingFormSubmittion(formId) {
     var form = document.getElementById(formId);
-    var body_object = {
-        name: "",
-        price: 0,
-        picture_link: "",
-    };
+    var body_object = {};
     if (form) {
         form.addEventListener("submit", function (submittion) {
             submittion.preventDefault();
             var formData = new FormData(form);
             formData.forEach(function (value, key) {
-                switch (key) {
-                    case "name":
-                        body_object.name = value.toString();
-                        break;
-                    case "price":
-                        body_object.price = parseFloat(value.toString());
-                        break;
-                    case "picture_link":
-                        body_object.picture_link = value.toString();
-                        break;
-                    default:
-                        break;
+                if (key === "price") {
+                    body_object[key] = parseFloat(value.toString());
+                }
+                else {
+                    body_object[key] = value.toString();
                 }
             });
             (0, api_utils_1.createNewDish)(body_object);

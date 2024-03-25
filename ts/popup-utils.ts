@@ -210,11 +210,7 @@ export async function createAddingPopUpWindow() {
 function onAddingFormSubmittion(formId: string) {
   const form = document.getElementById(formId) as HTMLFormElement;
 
-  let body_object: { name: string; price: number; picture_link: string } = {
-    name: "",
-    price: 0,
-    picture_link: "",
-  };
+  const body_object: Record<string, any> = {};
 
   if (form) {
     form.addEventListener("submit", function (submittion) {
@@ -222,18 +218,10 @@ function onAddingFormSubmittion(formId: string) {
       const formData = new FormData(form);
 
       formData.forEach((value, key) => {
-        switch (key) {
-          case "name":
-            body_object.name = value.toString();
-            break;
-          case "price":
-            body_object.price = parseFloat(value.toString());
-            break;
-          case "picture_link":
-            body_object.picture_link = value.toString();
-            break;
-          default:
-            break;
+        if (key === "price") {
+          body_object[key] = parseFloat(value.toString());
+        } else {
+          body_object[key] = value.toString();
         }
       });
       createNewDish(body_object);
