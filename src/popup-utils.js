@@ -42,7 +42,7 @@ var index_1 = require("./index");
 var utils_1 = require("./utils");
 function createUpdatePopUpWindow(dishId) {
     return __awaiter(this, void 0, void 0, function () {
-        var dish_request, dish_data, popupOverlay, popupWindow, popupTitle, popupForm, nameLabel, nameInput, priceLabel, priceInput, imageLabel, imageInput, submitFormButton, closeFormButton;
+        var dish_request, dish_data, popupOverlay, popupWindow, popupTitle, popupForm, nameLabel, nameInput, priceLabel, priceInput, imageLabel, imageInput, internetImageLabel, internetImageInput, submitFormButton, closeFormButton;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -60,10 +60,11 @@ function createUpdatePopUpWindow(dishId) {
                     popupForm = document.createElement("form");
                     popupForm.setAttribute("class", "popup-form-container");
                     popupForm.setAttribute("id", "modify-popup-form");
+                    popupForm.setAttribute("enctype", "multipart/form-data");
                     nameLabel = document.createElement("label");
                     nameLabel.setAttribute("class", "popup-form-label");
                     nameLabel.setAttribute("for", "name-input");
-                    nameLabel.textContent = "Name";
+                    nameLabel.textContent = "Enter Name";
                     nameInput = document.createElement("input");
                     nameInput.setAttribute("type", "text");
                     nameInput.setAttribute("class", "popup-form-input");
@@ -73,7 +74,7 @@ function createUpdatePopUpWindow(dishId) {
                     priceLabel = document.createElement("label");
                     priceLabel.setAttribute("class", "popup-form-label");
                     priceLabel.setAttribute("for", "price-input");
-                    priceLabel.textContent = "Price";
+                    priceLabel.textContent = "Enter Price";
                     priceInput = document.createElement("input");
                     priceInput.setAttribute("type", "number");
                     priceInput.setAttribute("class", "popup-form-input");
@@ -83,23 +84,39 @@ function createUpdatePopUpWindow(dishId) {
                     imageLabel = document.createElement("label");
                     imageLabel.setAttribute("class", "popup-form-label");
                     imageLabel.setAttribute("for", "image-input");
-                    imageLabel.textContent = "Image Link";
+                    imageLabel.textContent = "Select image from your local files";
                     imageInput = document.createElement("input");
-                    imageInput.setAttribute("type", "text");
+                    imageInput.setAttribute("type", "file");
+                    imageInput.setAttribute("accept", ".png,.jpg,.jpeg");
                     imageInput.setAttribute("class", "popup-form-input");
                     imageInput.setAttribute("id", "image-input");
                     imageInput.setAttribute("name", "picture_link");
-                    imageInput.setAttribute("value", dish_data.picture_link);
+                    internetImageLabel = document.createElement("label");
+                    internetImageLabel.setAttribute("class", "popup-form-label");
+                    internetImageLabel.setAttribute("for", "internet-image-input");
+                    internetImageLabel.textContent =
+                        "Paste here a link to image from the Internet";
+                    internetImageInput = document.createElement("input");
+                    internetImageInput.setAttribute("type", "text");
+                    internetImageInput.setAttribute("class", "popup-form-input");
+                    internetImageInput.setAttribute("id", "internet-image-input");
+                    internetImageInput.setAttribute("name", "picture_link");
+                    internetImageInput.setAttribute("value", dish_data.picture_link);
                     submitFormButton = document.createElement("button");
                     submitFormButton.setAttribute("type", "submit");
                     submitFormButton.setAttribute("class", "submit-button");
                     submitFormButton.textContent = "Submit";
+                    nameInput.setAttribute("required", "");
+                    priceInput.setAttribute("required", "");
+                    imageInput.setAttribute("required", "");
                     popupForm.appendChild(nameLabel);
                     popupForm.appendChild(nameInput);
                     popupForm.appendChild(priceLabel);
                     popupForm.appendChild(priceInput);
                     popupForm.appendChild(imageLabel);
                     popupForm.appendChild(imageInput);
+                    // popupForm.appendChild(internetImageLabel);
+                    // popupForm.appendChild(internetImageInput);
                     popupForm.appendChild(submitFormButton);
                     closeFormButton = document.createElement("button");
                     closeFormButton.setAttribute("type", "button");
@@ -120,34 +137,17 @@ function createUpdatePopUpWindow(dishId) {
 exports.createUpdatePopUpWindow = createUpdatePopUpWindow;
 function onUpdateFormSubmittion(FormId, entityId) {
     var form = document.getElementById(FormId);
-    var body_object = {
-        name: "",
-        price: 0,
-        picture_link: "",
-    };
-    if (form) {
-        form.addEventListener("submit", function (submittion) {
-            submittion.preventDefault();
-            var formData = new FormData(form);
-            formData.forEach(function (value, key) {
-                switch (key) {
-                    case "name":
-                        body_object.name = value.toString();
-                        break;
-                    case "price":
-                        body_object.price = parseFloat(value.toString());
-                        break;
-                    case "picture_link":
-                        body_object.picture_link = value.toString();
-                        break;
-                    default:
-                        break;
-                }
-            });
-            (0, api_utils_1.updateSpecificDish)(entityId, body_object);
-            (0, utils_1.closePopup)("modify-popupOverlay");
+    form.addEventListener("submit", function (submittion) {
+        submittion.preventDefault();
+        fetch("http://localhost:2137/dish/update/" + entityId, {
+            method: "POST",
+            body: new FormData(this),
+        }).then(function (response) {
+            if (response.ok) {
+                (0, utils_1.closePopup)("modify-popupOverlay");
+            }
         });
-    }
+    });
 }
 function createAddingPopUpWindow() {
     return __awaiter(this, void 0, void 0, function () {
@@ -184,9 +184,10 @@ function createAddingPopUpWindow() {
             imageLabel = document.createElement("label");
             imageLabel.setAttribute("class", "popup-form-label");
             imageLabel.setAttribute("for", "image-input");
-            imageLabel.textContent = "Image Link";
+            imageLabel.textContent = "Select image from your local files";
             imageInput = document.createElement("input");
-            imageInput.setAttribute("type", "text");
+            imageInput.setAttribute("type", "file");
+            imageInput.setAttribute("accept", ".png,.jpg,.jpeg");
             imageInput.setAttribute("class", "popup-form-input");
             imageInput.setAttribute("id", "image-input");
             imageInput.setAttribute("name", "picture_link");
@@ -194,6 +195,9 @@ function createAddingPopUpWindow() {
             submitFormButton.setAttribute("type", "submit");
             submitFormButton.setAttribute("class", "submit-button");
             submitFormButton.textContent = "Submit";
+            nameInput.setAttribute("required", "");
+            priceInput.setAttribute("required", "");
+            imageInput.setAttribute("required", "");
             popupForm.appendChild(nameLabel);
             popupForm.appendChild(nameInput);
             popupForm.appendChild(priceLabel);
@@ -219,23 +223,38 @@ function createAddingPopUpWindow() {
 exports.createAddingPopUpWindow = createAddingPopUpWindow;
 function onAddingFormSubmittion(formId) {
     var form = document.getElementById(formId);
-    var body_object = {};
-    if (form) {
-        form.addEventListener("submit", function (submittion) {
-            submittion.preventDefault();
-            var formData = new FormData(form);
-            formData.forEach(function (value, key) {
-                if (key === "price") {
-                    body_object[key] = parseFloat(value.toString());
-                }
-                else {
-                    body_object[key] = value.toString();
-                }
-            });
-            (0, api_utils_1.createNewDish)(body_object);
-            (0, utils_1.closePopup)("add-PopupOverlay");
+    form.addEventListener("submit", function (submittion) {
+        submittion.preventDefault();
+        fetch("http://localhost:2137/dish/create/", {
+            method: "POST",
+            body: new FormData(this),
+        }).then(function (response) {
+            if (response.ok) {
+                (0, utils_1.closePopup)("add-PopupOverlay");
+                location.reload();
+            }
         });
-    }
+    });
+    /*const form = document.getElementById(formId) as HTMLFormElement;
+  
+    const body_object: Record<string, any> = {};
+  
+    if (form) {
+      form.addEventListener("submit", function (submittion) {
+        submittion.preventDefault();
+        const formData = new FormData(form);
+  
+        formData.forEach((value, key) => {
+          if (key === "price") {
+            body_object[key] = parseFloat(value.toString());
+          } else {
+            body_object[key] = value.toString();
+          }
+        });
+        createNewDish(body_object);
+        closePopup("add-PopupOverlay");
+      });
+    }*/
 }
 function createDeletingPopUpWindow(dishId) {
     return __awaiter(this, void 0, void 0, function () {

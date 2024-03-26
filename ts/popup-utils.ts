@@ -12,60 +12,78 @@ export async function createUpdatePopUpWindow(dishId: string) {
   const dish_request = getSpecificDish(dishId);
   const dish_data: Dish = await dish_request;
 
-  let popupOverlay = document.createElement("div");
+  const popupOverlay = document.createElement("div");
   popupOverlay.setAttribute("class", "overlay-container");
   popupOverlay.setAttribute("id", "modify-popupOverlay");
 
-  let popupWindow = document.createElement("div");
+  const popupWindow = document.createElement("div");
   popupWindow.setAttribute("class", "popup-window");
 
-  let popupTitle = document.createElement("h2");
+  const popupTitle = document.createElement("h2");
   popupTitle.textContent = `Modify ${dish_data.name}:`;
 
-  let popupForm = document.createElement("form");
+  const popupForm = document.createElement("form");
   popupForm.setAttribute("class", "popup-form-container");
   popupForm.setAttribute("id", "modify-popup-form");
+  popupForm.setAttribute("enctype", "multipart/form-data");
 
-  let nameLabel = document.createElement("label");
+  const nameLabel = document.createElement("label");
   nameLabel.setAttribute("class", "popup-form-label");
   nameLabel.setAttribute("for", "name-input");
-  nameLabel.textContent = "Name";
+  nameLabel.textContent = "Enter Name";
 
-  let nameInput = document.createElement("input");
+  const nameInput = document.createElement("input");
   nameInput.setAttribute("type", "text");
   nameInput.setAttribute("class", "popup-form-input");
   nameInput.setAttribute("id", "name-input");
   nameInput.setAttribute("name", "name");
   nameInput.setAttribute("value", dish_data.name);
 
-  let priceLabel = document.createElement("label");
+  const priceLabel = document.createElement("label");
   priceLabel.setAttribute("class", "popup-form-label");
   priceLabel.setAttribute("for", "price-input");
-  priceLabel.textContent = "Price";
+  priceLabel.textContent = "Enter Price";
 
-  let priceInput = document.createElement("input");
+  const priceInput = document.createElement("input");
   priceInput.setAttribute("type", "number");
   priceInput.setAttribute("class", "popup-form-input");
   priceInput.setAttribute("id", "price-input");
   priceInput.setAttribute("name", "price");
   priceInput.setAttribute("value", String(dish_data.price));
 
-  let imageLabel = document.createElement("label");
+  const imageLabel = document.createElement("label");
   imageLabel.setAttribute("class", "popup-form-label");
   imageLabel.setAttribute("for", "image-input");
-  imageLabel.textContent = "Image Link";
+  imageLabel.textContent = "Select image from your local files";
 
-  let imageInput = document.createElement("input");
-  imageInput.setAttribute("type", "text");
+  const imageInput = document.createElement("input");
+  imageInput.setAttribute("type", "file");
+  imageInput.setAttribute("accept", ".png,.jpg,.jpeg");
   imageInput.setAttribute("class", "popup-form-input");
   imageInput.setAttribute("id", "image-input");
   imageInput.setAttribute("name", "picture_link");
-  imageInput.setAttribute("value", dish_data.picture_link);
 
-  let submitFormButton = document.createElement("button");
+  const internetImageLabel = document.createElement("label");
+  internetImageLabel.setAttribute("class", "popup-form-label");
+  internetImageLabel.setAttribute("for", "internet-image-input");
+  internetImageLabel.textContent =
+    "Paste here a link to image from the Internet";
+
+  const internetImageInput = document.createElement("input");
+  internetImageInput.setAttribute("type", "text");
+  internetImageInput.setAttribute("class", "popup-form-input");
+  internetImageInput.setAttribute("id", "internet-image-input");
+  internetImageInput.setAttribute("name", "picture_link");
+  internetImageInput.setAttribute("value", dish_data.picture_link);
+
+  const submitFormButton = document.createElement("button");
   submitFormButton.setAttribute("type", "submit");
   submitFormButton.setAttribute("class", "submit-button");
   submitFormButton.textContent = "Submit";
+
+  nameInput.setAttribute("required", "");
+  priceInput.setAttribute("required", "");
+  imageInput.setAttribute("required", "");
 
   popupForm.appendChild(nameLabel);
   popupForm.appendChild(nameInput);
@@ -73,10 +91,12 @@ export async function createUpdatePopUpWindow(dishId: string) {
   popupForm.appendChild(priceInput);
   popupForm.appendChild(imageLabel);
   popupForm.appendChild(imageInput);
+  // popupForm.appendChild(internetImageLabel);
+  // popupForm.appendChild(internetImageInput);
 
   popupForm.appendChild(submitFormButton);
 
-  let closeFormButton = document.createElement("button");
+  const closeFormButton = document.createElement("button");
   closeFormButton.setAttribute("type", "button");
   closeFormButton.setAttribute("class", "close-form-button");
   closeFormButton.setAttribute("onclick", 'closePopup("modify-popupOverlay")');
@@ -96,36 +116,18 @@ export async function createUpdatePopUpWindow(dishId: string) {
 function onUpdateFormSubmittion(FormId: string, entityId: string) {
   const form = document.getElementById(FormId) as HTMLFormElement;
 
-  let body_object: { name: string; price: number; picture_link: string } = {
-    name: "",
-    price: 0,
-    picture_link: "",
-  };
+  form.addEventListener("submit", function (submittion) {
+    submittion.preventDefault();
 
-  if (form) {
-    form.addEventListener("submit", function (submittion) {
-      submittion.preventDefault();
-      const formData = new FormData(form);
-
-      formData.forEach((value, key) => {
-        switch (key) {
-          case "name":
-            body_object.name = value.toString();
-            break;
-          case "price":
-            body_object.price = parseFloat(value.toString());
-            break;
-          case "picture_link":
-            body_object.picture_link = value.toString();
-            break;
-          default:
-            break;
-        }
-      });
-      updateSpecificDish(entityId, body_object);
-      closePopup("modify-popupOverlay");
+    fetch("http://localhost:2137/dish/update/" + entityId, {
+      method: "POST",
+      body: new FormData(this),
+    }).then((response) => {
+      if (response.ok) {
+        closePopup("modify-popupOverlay");
+      }
     });
-  }
+  });
 }
 
 export async function createAddingPopUpWindow() {
@@ -165,13 +167,14 @@ export async function createAddingPopUpWindow() {
   priceInput.setAttribute("id", "price-input");
   priceInput.setAttribute("name", "price");
 
-  let imageLabel = document.createElement("label");
+  const imageLabel = document.createElement("label");
   imageLabel.setAttribute("class", "popup-form-label");
   imageLabel.setAttribute("for", "image-input");
-  imageLabel.textContent = "Image Link";
+  imageLabel.textContent = "Select image from your local files";
 
-  let imageInput = document.createElement("input");
-  imageInput.setAttribute("type", "text");
+  const imageInput = document.createElement("input");
+  imageInput.setAttribute("type", "file");
+  imageInput.setAttribute("accept", ".png,.jpg,.jpeg");
   imageInput.setAttribute("class", "popup-form-input");
   imageInput.setAttribute("id", "image-input");
   imageInput.setAttribute("name", "picture_link");
@@ -180,6 +183,10 @@ export async function createAddingPopUpWindow() {
   submitFormButton.setAttribute("type", "submit");
   submitFormButton.setAttribute("class", "submit-button");
   submitFormButton.textContent = "Submit";
+
+  nameInput.setAttribute("required", "");
+  priceInput.setAttribute("required", "");
+  imageInput.setAttribute("required", "");
 
   popupForm.appendChild(nameLabel);
   popupForm.appendChild(nameInput);
@@ -210,6 +217,22 @@ export async function createAddingPopUpWindow() {
 function onAddingFormSubmittion(formId: string) {
   const form = document.getElementById(formId) as HTMLFormElement;
 
+  form.addEventListener("submit", function (submittion) {
+    submittion.preventDefault();
+
+    fetch("http://localhost:2137/dish/create/", {
+      method: "POST",
+      body: new FormData(this),
+    }).then((response) => {
+      if (response.ok) {
+        closePopup("add-PopupOverlay");
+        location.reload();
+      }
+    });
+  });
+
+  /*const form = document.getElementById(formId) as HTMLFormElement;
+
   const body_object: Record<string, any> = {};
 
   if (form) {
@@ -227,7 +250,7 @@ function onAddingFormSubmittion(formId: string) {
       createNewDish(body_object);
       closePopup("add-PopupOverlay");
     });
-  }
+  }*/
 }
 
 export async function createDeletingPopUpWindow(dishId: string) {
