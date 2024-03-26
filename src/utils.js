@@ -36,12 +36,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.closePopup = exports.togglePopup = exports.renderModifyPage = exports.generateCartSummary = exports.displayProductsInCart = exports.renderDishesInMenu = exports.displayNavigationBar = void 0;
+exports.closePopup = exports.togglePopup = exports.renderModifyPage = exports.generateCartSummary = exports.displayProductsInCart = exports.renderDishesInMenu = exports.displayFooter = exports.displayNavigationBar = void 0;
 var index_1 = require("./index");
 var api_utils_1 = require("./api-utils");
 var uuid_1 = require("uuid");
 var popup_utils_1 = require("./popup-utils");
-function displayNavigationBar(id) {
+function displayNavigationBar(elementId) {
     var ul = document.createElement("ul");
     ul.setAttribute("class", "toolbar-list");
     var navbar_content = [
@@ -76,12 +76,51 @@ function displayNavigationBar(id) {
     for (var i = 0; i < navbar_content.length; i++) {
         _loop_1(i);
     }
-    var element = document.getElementById(id);
+    var element = document.getElementById(elementId);
     if (element) {
         element.appendChild(ul);
     }
 }
 exports.displayNavigationBar = displayNavigationBar;
+function displayFooter(elementId) {
+    var footer_list = document.createElement("ul");
+    footer_list.setAttribute("class", "footer-list");
+    var footer_text = document.createElement("li");
+    footer_text.setAttribute("class", "footer-text");
+    var text_header = document.createElement("h4");
+    var text_header_content = document.createTextNode("Contact Details:");
+    text_header.appendChild(text_header_content);
+    var text_paragraph = document.createElement("p");
+    var text_paragraph_content1 = document.createTextNode("Address: Some example address");
+    var text_paragraph_content2 = document.createTextNode("Phone: +381 99 9999999");
+    var text_paragraph_content3 = document.createTextNode("Opening Hours: 10AM - 11PM");
+    text_paragraph.appendChild(text_paragraph_content1);
+    text_paragraph.appendChild(document.createElement("br"));
+    text_paragraph.appendChild(text_paragraph_content2);
+    text_paragraph.appendChild(document.createElement("br"));
+    text_paragraph.appendChild(text_paragraph_content3);
+    footer_text.appendChild(text_header);
+    footer_text.appendChild(text_paragraph);
+    var footer_icons = document.createElement("li");
+    footer_icons.setAttribute("class", "footer-icons");
+    var icons_header = document.createElement("h4");
+    var icons_header_content = document.createTextNode("Reach out to us!");
+    icons_header.appendChild(icons_header_content);
+    var icons_image_viber = document.createElement("img");
+    icons_image_viber.setAttribute("src", "./images/viber_logo.png");
+    var icons_image_whatsapp = document.createElement("img");
+    icons_image_whatsapp.setAttribute("src", "./images/whatsapp_logo.png");
+    footer_icons.appendChild(icons_header);
+    footer_icons.appendChild(icons_image_viber);
+    footer_icons.appendChild(icons_image_whatsapp);
+    footer_list.appendChild(footer_text);
+    footer_list.appendChild(footer_icons);
+    var element = document.getElementById(elementId);
+    if (element) {
+        element.appendChild(footer_list);
+    }
+}
+exports.displayFooter = displayFooter;
 function renderDishesInMenu(cart) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {

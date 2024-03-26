@@ -27,3 +27,4 @@ items_in_cart.forEach(function (element) {
 });
 var total_amount = document.getElementById("total-amount");
 (0, utils_1.generateCartSummary)(total_amount);
+(0, utils_1.displayFooter)("page-footer");

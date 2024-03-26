@@ -7,6 +7,7 @@ import "./css/modify_styles.css";
 
 import {
   displayNavigationBar,
+  displayFooter,
   renderDishesInMenu,
   displayProductsInCart,
   generateCartSummary,
@@ -39,5 +40,7 @@ items_in_cart.forEach((element) => {
 let total_amount: HTMLElement | null = document.getElementById("total-amount");
 
 generateCartSummary(total_amount);
+
+displayFooter("page-footer");
 
 export { items_in_cart };

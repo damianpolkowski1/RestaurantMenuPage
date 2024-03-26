@@ -11,7 +11,7 @@ interface Cart {
   [key: string]: number;
 }
 
-export function displayNavigationBar(id: string) {
+export function displayNavigationBar(elementId: string) {
   const ul = document.createElement("ul");
   ul.setAttribute("class", "toolbar-list");
 
@@ -51,10 +51,69 @@ export function displayNavigationBar(id: string) {
     ul.appendChild(li);
   }
 
-  const element = document.getElementById(id);
+  const element = document.getElementById(elementId);
 
   if (element) {
     element.appendChild(ul);
+  }
+}
+
+export function displayFooter(elementId: string) {
+  const footer_list = document.createElement("ul");
+  footer_list.setAttribute("class", "footer-list");
+
+  const footer_text = document.createElement("li");
+  footer_text.setAttribute("class", "footer-text");
+
+  const text_header = document.createElement("h4");
+  const text_header_content = document.createTextNode("Contact Details:");
+  text_header.appendChild(text_header_content);
+
+  const text_paragraph = document.createElement("p");
+  const text_paragraph_content1 = document.createTextNode(
+    "Address: Some example address"
+  );
+
+  const text_paragraph_content2 = document.createTextNode(
+    "Phone: +381 99 9999999"
+  );
+  const text_paragraph_content3 = document.createTextNode(
+    "Opening Hours: 10AM - 11PM"
+  );
+
+  text_paragraph.appendChild(text_paragraph_content1);
+  text_paragraph.appendChild(document.createElement("br"));
+  text_paragraph.appendChild(text_paragraph_content2);
+  text_paragraph.appendChild(document.createElement("br"));
+  text_paragraph.appendChild(text_paragraph_content3);
+
+  footer_text.appendChild(text_header);
+  footer_text.appendChild(text_paragraph);
+
+  const footer_icons = document.createElement("li");
+  footer_icons.setAttribute("class", "footer-icons");
+
+  const icons_header = document.createElement("h4");
+  const icons_header_content = document.createTextNode("Reach out to us!");
+  icons_header.appendChild(icons_header_content);
+
+  const icons_image_viber = document.createElement("img");
+  icons_image_viber.setAttribute("src", "./images/viber_logo.png");
+
+  const icons_image_whatsapp = document.createElement("img");
+  icons_image_whatsapp.setAttribute("src", "./images/whatsapp_logo.png");
+
+  footer_icons.appendChild(icons_header);
+  footer_icons.appendChild(icons_image_viber);
+  footer_icons.appendChild(icons_image_whatsapp);
+
+  footer_list.appendChild(footer_text);
+  footer_list.appendChild(footer_icons);
+
+  const element = document.getElementById(elementId);
+
+  if (element) {
+    element.appendChild(footer_list);
   }
 }
 
